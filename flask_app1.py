@@ -87,6 +87,10 @@ def format_uae_number(phone_number):
 # Routes
 # Routes
 
+@app.route('/test')
+def test():
+    return "Hello, Azure!"
+
 @app.route('/<store_url_id>')
 def index(store_url_id):
     # Extract UUID from the store_url_id using regex
