@@ -14,11 +14,20 @@ from database.connection import init_connection
 from database.sms_utils import send_gift_code_sms  # Adjust the path as needed
 from dotenv import load_dotenv
 load_dotenv()
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+logger.info("Testing DB connection...")
+
 print("Testing DB connection...")
 engine = init_connection()
 print("Engine:", engine)
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # Required for session management
+#app.secret_key = os.urandom(24)
+app.secret_key = os.environ.get["FLASK_SECRET_KEY"]
+# Required for session management
 
 # SMS Service Credentials
 SMS_API_URL = os.environ.get("SMS_API_URL")
