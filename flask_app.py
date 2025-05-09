@@ -12,7 +12,8 @@ import threading
 import time
 from database.connection import init_connection
 from database.sms_utils import send_gift_code_sms  # Adjust the path as needed
-
+from dotenv import load_dotenv
+load_dotenv()
 print("Testing DB connection...")
 engine = init_connection()
 print("Engine:", engine)
@@ -20,10 +21,10 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)  # Required for session management
 
 # SMS Service Credentials
-SMS_API_URL = "https://restapi.tobeprecisesms.com/api"
-SMS_USERNAME = "AjmalOTP"
-SMS_PASSWORD = "AJmt6301"
-SMS_SENDER = "Ajmal One"
+SMS_API_URL = os.environ.get("SMS_API_URL")
+SMS_USERNAME = os.environ.get("SMS_USERNAME")
+SMS_PASSWORD = os.environ.get("SMS_PASSWORD")
+SMS_SENDER = os.environ.get("SMS_SENDER")
 
 # Initialize database tables
 init_database_tables()
