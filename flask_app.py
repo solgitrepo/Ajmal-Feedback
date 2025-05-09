@@ -336,9 +336,7 @@ def enter_otp():
 def start_over():
     session.clear()
     return redirect(url_for('language_selection'))  # or your actual starting route
-
-
 if __name__ == '__main__':
-    # threading.Thread(target=open_browser).start()
-    # app.run(debug=True)
+    #threading.Thread(target=open_browser).start()
+    app.run(debug=True)
    
