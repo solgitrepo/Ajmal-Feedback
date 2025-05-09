@@ -327,5 +327,5 @@ def start_over():
 
 if __name__ == '__main__':
     # threading.Thread(target=open_browser).start()
-    app.run(debug=True)
+    # app.run(debug=True)
    
