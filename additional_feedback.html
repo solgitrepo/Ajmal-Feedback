@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="progress">
+    <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+
+{% if session.form_data.satisfaction == 'Yes' %}
+    <h2 class="text-center mb-4">
+        {% if session.language == 'Arabic' %}
+            هل ترغب في مشاركة أي ملاحظات إضافية تتعلق بتجربة تسوقك الأخيرة؟
+        {% else %}
+            Would you like to share any additional feedback related to your recent shopping experience?
+        {% endif %}
+    </h2>
+{% else %}
+    <h2 class="text-center mb-4">
+        {% if session.language == 'Arabic' %}
+            نأسف لإضاعة الفرصة لتزويدك بتجربة تسوق ممتعة لا تتردد في مشاركة أي تعليقات إضافية تتعلق بتجربتك الأخيرة
+        {% else %}
+            We regret having missed the opportunity in providing you with a pleasant shopping experience. Please feel free to share any additional feedback related to your recent experience.
+        {% endif %}
+    </h2>
+{% endif %}
+
+<form method="POST" class="text-center">
+    <div class="mb-3">
+        <textarea class="form-control" name="feedback" rows="4" placeholder="{% if session.language == 'Arabic' %}اكتب ملاحظاتك هنا{% else %}Write your feedback here{% endif %}"></textarea>
+    </div>
+    
+    <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary">
+            {% if session.language == 'Arabic' %}
+                التالي →
+            {% else %}
+                Next →
+            {% endif %}
+        </button>
+        <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
+            {% if session.language == 'Arabic' %}
+                ← السابق
+            {% else %}
+                ← Previous
+            {% endif %}
+        </a>
+    </div>
+    
+</form>
+{% endblock %} 
