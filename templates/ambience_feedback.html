@@ -35,14 +35,14 @@
     <div class="d-grid gap-2">
         <button type="submit" class="btn btn-primary">
             {% if session.language == 'Arabic' %}
-                التالي →
+                ←التالي 
             {% else %}
                 Next →
             {% endif %}
         </button>
         <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
             {% if session.language == 'Arabic' %}
-                ← السابق
+                السابق→
             {% else %}
                 ← Previous
             {% endif %}
