@@ -26,7 +26,7 @@ engine = init_connection()
 print("Engine:", engine)
 app = Flask(__name__)
 #app.secret_key = os.urandom(24)
-app.secret_key = os.environ.get["FLASK_SECRET_KEY"]
+app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 # Required for session management
 
 # SMS Service Credentials
