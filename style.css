@@ -1,0 +1,295 @@
+/* Main container styling */
+.stApp {
+    overflow: hidden;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0.2rem;
+    height: 100vh;
+}
+/* Remove scrollbar */
+::-webkit-scrollbar {
+    display: none;
+}
+/* Logo container */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+    width: 100%;
+}
+
+.logo-img {
+    height: 100px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.stButton button {
+    width: 100%;
+    padding: 6px 12px;
+    background-color: #464eb8;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    margin: 0.2rem 0;
+}
+/* Smaller buttons for OTP */
+.small-button button {
+    width: auto !important;
+    min-width: 120px !important;
+    max-width: 180px !important;
+    display: inline-block !important;
+}
+.stButton button:hover {
+    background-color: rgb(70,78,184);
+    color: rgb(222, 221, 215);
+}
+.stSelectbox {
+    margin-bottom: 0.2rem;
+}
+/* Email error message styling */
+.error-message {
+    color: red;
+    font-size: 0.8rem;
+    margin-top: -0.1rem;
+    margin-bottom: 0.2rem;
+    position: relative;
+    display: block;
+}
+div[data-testid="stForm"] {
+    margin-bottom: 0.2rem;
+}
+/* Question styling */
+.stMarkdown h3 {
+    color: #333;
+    margin-bottom: 0.2rem;
+    font-size: 1rem;
+    text-align: center;
+}
+/* Input fields styling */
+.stTextInput > div {
+    margin-bottom: 0.4rem;
+}
+.stTextArea > div {
+    margin-bottom: 0.2rem;
+}
+/* Progress bar styling */
+.stProgress > div {
+    margin: 0.2rem 0;
+}
+/* Progress bar color */
+.stProgress > div > div > div {
+    background-color: rgb(225, 213, 213);
+}
+/* Progress bar filled portion */
+.stProgress > div > div > div > div {
+    background-color: #2E8B57 !important;
+}
+/* Select box styling */
+.stSelectbox > div {
+    margin-bottom: 0.2rem;
+}
+/* Text area styling */
+.stTextArea > div {
+    height: 60px;
+}
+/* Remove extra spacing */
+.element-container {
+    margin: 0.2rem 0;
+}
+.block-container {
+    padding: 0.2rem;
+}
+/* NPS rating container */
+.nps-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 2rem 0;
+    text-align: center;
+}
+.nps-button {
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+/* Red buttons (0-6) */
+.nps-red {
+    background-color: #ffb3b3;
+}
+.nps-red:hover {
+    background-color: #ff8080;
+}
+/* Yellow buttons (7-8) */
+.nps-yellow {
+    background-color: #fff2b3;
+}
+.nps-yellow:hover {
+    background-color: #ffeb80;
+}
+/* Green buttons (9-10) */
+.nps-green {
+    background-color: #b3ffb3;
+}
+.nps-green:hover {
+    background-color: #80ff80;
+}
+.nps-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+.nps-label {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* NPS specific styling to override default button styles */
+#nps-rating-area button {
+    border: 1px solid #ddd !important;
+    color: black !important;
+    background-color: #464eb8 !important;
+    width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+}
+
+/* Red rating buttons (0-6) */
+#nps-rating-area div:nth-child(1) button,
+#nps-rating-area div:nth-child(2) button,
+#nps-rating-area div:nth-child(3) button,
+#nps-rating-area div:nth-child(4) button,
+#nps-rating-area div:nth-child(5) button,
+#nps-rating-area div:nth-child(6) button,
+#nps-rating-area div:nth-child(7) button {
+    background-color: #E9A8A8 !important;
+}
+
+/* Yellow rating buttons (7-8) */
+#nps-rating-area div:nth-child(8) button,
+#nps-rating-area div:nth-child(9) button {
+    background-color: #FFF799 !important;
+}
+
+/* Green rating buttons (9-10) */
+#nps-rating-area div:nth-child(10) button,
+#nps-rating-area div:nth-child(11) button {
+    background-color: #97BE6C !important;
+}
+
+/* Selected rating style */
+.selected-rating {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* NPS Button Styling */
+.nps-button-0 { background-color: #E9A8A8 !important; }
+.nps-button-1 { background-color: #E9A8A8 !important; }
+.nps-button-2 { background-color: #E9A8A8 !important; }
+.nps-button-3 { background-color: #E9A8A8 !important; }
+.nps-button-4 { background-color: #E9A8A8 !important; }
+.nps-button-5 { background-color: #E9A8A8 !important; }
+.nps-button-6 { background-color: #E9A8A8 !important; }
+.nps-button-7 { background-color: #FFF799 !important; }
+.nps-button-8 { background-color: #FFF799 !important; }
+.nps-button-9 { background-color: #97BE6C !important; }
+.nps-button-10 { background-color: #97BE6C !important; }
+
+/* NPS Button Container Styling */
+div[data-testid="column"] {
+    padding: 0 2px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+/* NPS Button Common Styles */
+[class^="nps-button-"] {
+    color: black !important;
+    border: 1px solid #ddd !important;
+    width: 40px !important;
+    height: 40px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Force columns to stay in a row */
+div[data-testid="column-container"] {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    gap: 4px !important;
+    width: 100% !important;
+}
+
+/* Make sure buttons take full width of their column */
+div[data-testid="column"] button {
+    width: 100% !important;
+    min-width: 40px !important;
+    height: 40px !important;
+}
+
+/* Selected NPS Button Style */
+.nps-button-selected {
+    border: 2px solid black !important;
+}
+
+/* NPS Labels */
+.nps-label-left,
+.nps-label-right {
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.nps-label-left {
+    text-align: left;
+}
+
+.nps-label-right {
+    text-align: right;
+}
+
+.nps-selected-rating {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+/* Additional styles for OTP verification */
+.verification-container {
+    border-top: 1px solid #ddd;
+    padding: 20px;
+    margin: 10px 0;
+}
+
+.verification-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+    text-align: center;
+}
+
+.otp-input {
+    font-size: 1.5rem;
+    letter-spacing: 0.2rem;
+    text-align: center;
+} 
