@@ -1,14 +1,19 @@
 import requests
 import json
 from flask import session
-
-
+import os
+import re
+from dotenv import load_dotenv
+load_dotenv()
+SMS_API_URL = os.environ.get("SMS_API_URL")
+SMS_USERNAME = os.environ.get("SMS_USERNAME")
+SMS_PASSWORD = os.environ.get("SMS_PASSWORD")
+SMS_SENDER = os.environ.get("SMS_SENDER")
 def send_gift_code_sms(phone_number, gift_code):
     """Send gift code via SMS using the specified API"""
-    SMS_API_URL = "https://restapi.tobeprecisesms.com/api"
-    SMS_USERNAME = "AjmalOTP"
-    SMS_PASSWORD = "AJmt6301"
-    SMS_SENDER = "Ajmal One"
+    if not all([SMS_API_URL, SMS_USERNAME, SMS_PASSWORD, SMS_SENDER]):
+            raise RuntimeError("One or more SMS credentials are missing from environment variables.")
+    
     """
     Sends the gift code via SMS using the configured SMS API.
 
