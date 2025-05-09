@@ -7,7 +7,7 @@ A simple Flask-based Customer feedback application for Client
 ### 1. Clone the Repository
 
 bash
-git clone https://github.com/your-username/flask_feedback.git
+git clone https://github.com/your-username/Ajmal-Feedback.git
 cd flask_feedback
 
 
