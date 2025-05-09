@@ -21,9 +21,18 @@ logger = logging.getLogger(__name__)
 
 logger.info("Testing DB connection...")
 
-print("Testing DB connection...")
-engine = init_connection()
-print("Engine:", engine)
+#print("Testing DB connection...")
+#engine = init_connection()
+#print("Engine:", engine)
+
+try:
+    print("Testing DB connection...")
+    engine = init_connection()
+    print("Engine:", engine)
+except Exception as e:
+    logger.error("Database connection failed: %s", str(e))
+    raise
+
 app = Flask(__name__)
 #app.secret_key = os.urandom(24)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY")
