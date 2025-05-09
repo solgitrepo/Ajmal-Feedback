@@ -7,9 +7,9 @@ from database.connection import init_database_tables
 import random
 import string
 import requests
-import webbrowser
+'''import webbrowser
 import threading
-import time
+import time'''
 from database.connection import init_connection
 from database.sms_utils import send_gift_code_sms  # Adjust the path as needed
 from dotenv import load_dotenv
@@ -47,9 +47,9 @@ SMS_SENDER = os.environ.get("SMS_SENDER")
 # Initialize database tables
 init_database_tables()
 
-def open_browser():
+'''def open_browser():
     time.sleep(1)  # Wait a moment for the server to start
-    webbrowser.open_new('http://127.0.0.1:5000/ajmalfeedback-4D732203-CEFA-4827-AFE2-113853D5B053')
+    webbrowser.open_new('http://127.0.0.1:5000/ajmalfeedback-4D732203-CEFA-4827-AFE2-113853D5B053')'''
 # Utility functions
 def generate_otp():
     """Generate a 6-digit OTP code"""
