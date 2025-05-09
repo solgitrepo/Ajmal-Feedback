@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="text-center mb-4">
+    {% if session.language == 'Arabic' %}يرجى تحديد سبب واحد أو أكثر من الأسباب المذكورة أدناه.
+    {% else %}
+        Please select one or more of the reasons listed below.
+    {% endif %}
+</h2>
+<form method="POST">
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="ambience_reasons" value="It was too warm / too cold in the store" id="a1">
+        <label class="form-check-label" for="a1">
+            {% if session.language == 'Arabic' %} كان الجو حاراً جدًا / باردًا جدًا في المتجر {% else %} It was too warm / too cold in the store {% endif %}
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="ambience_reasons" value="The store and display seemed untidy" id="a2">
+        <label class="form-check-label" for="a2">
+            {% if session.language == 'Arabic' %} المتجر وكيفية عرض المنتجات كانت غير مرتبة {% else %} The store and display seemed untidy {% endif %}
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="ambience_reasons" value="The lighting was too bright / too dim" id="a3">
+        <label class="form-check-label" for="a3">
+            {% if session.language == 'Arabic' %} كانت الإضاءة ساطعة جدًا / خافتة جدًا {% else %} The lighting was too bright / too dim {% endif %}
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="ambience_reasons" value="The store layout was not very easy to navigate" id="a4">
+        <label class="form-check-label" for="a4">
+            {% if session.language == 'Arabic' %} تصميم المتجر يجعل التنقل ليس سهلاً {% else %} The store layout was not very easy to navigate {% endif %}
+        </label>
+    </div>
+    <br>
+    <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary">
+            {% if session.language == 'Arabic' %}
+                التالي →
+            {% else %}
+                Next →
+            {% endif %}
+        </button>
+        <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
+            {% if session.language == 'Arabic' %}
+                ← السابق
+            {% else %}
+                ← Previous
+            {% endif %}
+        </a>
+    </div>
+    
+</form>
+{% endblock %}
