@@ -15,49 +15,62 @@
 
 <form method="POST" class="text-center">
     <div class="card p-3 mb-4">
-        <div class="nps-scale d-flex flex-wrap justify-content-center">
+        <div class="nps-scale d-flex justify-content-center mb-2">
             {% for i in range(11) %}
-                <div class="form-check form-check-inline m-1">
-                    <input class="form-check-input" type="radio" name="nps" id="nps{{ i }}" value="{{ i }}" required>
+                <div class="form-check form-check-inline nps-item text-center">
+                    <input class="form-check-input" type="radio" name="nps" id="nps{{ i }}" value="{{ i }}"
+                        {% if previous_nps is not none and previous_nps == i|string %}checked{% endif %}>
                     <label class="form-check-label" for="nps{{ i }}">{{ i }}</label>
                 </div>
             {% endfor %}
         </div>
-
-        <div class="row mt-3 mb-2">
-            <div class="col-6 text-start small">
+    
+        <div class="d-flex justify-content-between px-1">
+            <small class="text-start">
                 {% if session.language == 'Arabic' %}
                     ليس من المحتمل على الإطلاق
                 {% else %}
                     Not at all likely
                 {% endif %}
-            </div>
-            <div class="col-6 text-end small">
+            </small>
+            <small class="text-end">
                 {% if session.language == 'Arabic' %}
                     محتمل للغاية
                 {% else %}
                     Extremely Likely
                 {% endif %}
-            </div>
+            </small>
         </div>
+    </div>    
+
+    
+    <div class="row">
+        {% if session.language == 'Arabic' %}
+            <div class="col text-start">
+                <button type="submit" class="btn btn-primary">
+                    التالي →
+                </button>
+            </div>
+            <div class="col text-end">
+                <a href="{{ url_for('additional_feedback') }}" class="btn btn-outline-secondary">
+                    ← السابق
+                </a>
+            </div>
+        {% else %}
+            <div class="col text-start">
+                <a href="{{ url_for('additional_feedback') }}" class="btn btn-outline-secondary">
+                    ← Previous
+                </a>
+            </div>
+            <div class="col text-end">
+                <button type="submit" class="btn btn-primary">
+                    Next →
+                </button>
+            </div>
+        {% endif %}
     </div>
 
-    <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary">
-            {% if session.language == 'Arabic' %}
-                التالي →
-            {% else %}
-                Next →
-            {% endif %}
-        </button>
-        <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
-            {% if session.language == 'Arabic' %}
-                ← السابق
-            {% else %}
-                ← Previous
-            {% endif %}
-        </a>
-    </div>
+    
 </form>
 
 <style>
