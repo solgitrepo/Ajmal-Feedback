@@ -40,21 +40,31 @@
                required maxlength="6" pattern="[0-9]{6}">
     </div>
 
-    <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary">
-            {% if session.language == 'Arabic' %}
-                ←التالي 
-            {% else %}
-                Next →
-            {% endif %}
-        </button>
-        <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
-            {% if session.language == 'Arabic' %}
-                السابق→
-            {% else %}
-                ← Previous
-            {% endif %}
-        </a>
+    <div class="row">
+        {% if session.language == 'Arabic' %}
+            <div class="col text-start">
+                <button type="submit" class="btn btn-primary">
+                    ← التالي
+                </button>
+            </div>
+            <div class="col text-end">
+                <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
+                    السابق →
+                </a>
+            </div>
+        {% else %}
+            <div class="col text-start">
+                <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
+                    ← Previous
+                </a>
+            </div>
+            <div class="col text-end">
+                <button type="submit" class="btn btn-primary">
+                    Next →
+                </button>
+            </div>
+        {% endif %}
     </div>
+    
 </form>
 {% endblock %}
