@@ -22,7 +22,8 @@
                 Full Name
             {% endif %}
         </label>
-        <input type="text" class="form-control" id="name" name="name" required>
+        <input type="text" class="form-control" id="name" name="name" required
+        value="{{ session.form_data.get('name', '') }}">
     </div>
     
     <div class="mb-3">
@@ -33,31 +34,34 @@
                 Email Address
             {% endif %}
         </label>
-        <input type="email" class="form-control" id="email" name="email" required>
-        <small class="text-muted">
-            {% if session.language == 'Arabic' %}
-                يرجى إدخال بريد إلكتروني صحيح (يجب أن يحتوي على @ وينتهي بـ .com)
-            {% else %}
-                Please enter a valid email
-            {% endif %}
-        </small>
+        <input type="email" class="form-control" id="email" name="email" required
+        value="{{ session.form_data.get('email', '') }}">
     </div>
 
-    <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary">
-            {% if session.language == 'Arabic' %}
-                ←التالي 
-            {% else %}
-                Next →
-            {% endif %}
-        </button>
-        <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
-            {% if session.language == 'Arabic' %}
-                السابق→
-            {% else %}
-                ← Previous
-            {% endif %}
-        </a>
+    <div class="row">
+        {% if session.language == 'Arabic' %}
+            <div class="col text-start">
+                <button type="submit" class="btn btn-primary">
+                    ← التالي
+                </button>
+            </div>
+            <div class="col text-end">
+                <a href="{{ url_for('nps') }}" class="btn btn-outline-secondary">
+                    السابق →
+                </a>
+            </div>
+        {% else %}
+            <div class="col text-start">
+                <a href="{{ url_for('nps') }}" class="btn btn-outline-secondary">
+                    ← Previous
+                </a>
+            </div>
+            <div class="col text-end">
+                <button type="submit" class="btn btn-primary">
+                    Next →
+                </button>
+            </div>
+        {% endif %}
     </div>
 </form>
 {% endblock %}
