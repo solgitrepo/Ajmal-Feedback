@@ -17,7 +17,7 @@
     <div class="form-check form-check-inline mb-4">
         <input class="form-check-input" type="radio" name="first_visit" id="yes" value="Yes" 
         {% if previous_first_visit == 'Yes' %}checked{% endif %}>
-    <!--{% if visited_first_visit_page and previous_first_visit == 'Yes' %}checked{% endif %}>-->
+    
         <label class="form-check-label" for="yes">
             {% if session.language == 'Arabic' %}نعم{% else %}Yes{% endif %}
         </label>
@@ -25,7 +25,7 @@
     <div class="form-check form-check-inline mb-4">
         <input class="form-check-input" type="radio" name="first_visit" id="no" value="No"
         {% if previous_first_visit == 'No' %}checked{% endif %}>
-        <!--{% if visited_first_visit_page and previous_first_visit == 'No' %}checked{% endif %}>-->
+        
         <label class="form-check-label" for="no">
             {% if session.language == 'Arabic' %}لا{% else %}No{% endif %}
         </label>
