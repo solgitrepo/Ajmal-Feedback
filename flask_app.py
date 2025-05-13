@@ -143,26 +143,49 @@ def start_survey():
 
 @app.route('/first-visit', methods=['GET', 'POST'])
 def first_visit():
+    session.setdefault('form_data', {})
+    session.setdefault('visited_pages', {})
+
     if request.method == 'POST':
         session['form_data']['first_visit'] = request.form.get('first_visit')
-        session['page'] = 3
+        session['visited_pages']['first_visit'] = True
+        session.modified = True
         return redirect(url_for('satisfaction'))
-    return render_template('first_visit.html')
+
+    return render_template(
+        'first_visit.html',
+        previous_first_visit=session['form_data'].get('first_visit', ''),
+        visited_first_visit_page=session['visited_pages'].get('first_visit', False)
+    )
 
 
 @app.route('/satisfaction', methods=['GET', 'POST'])
 def satisfaction():
+    session.setdefault('form_data', {})
+    session.setdefault('visited_pages', {})
+
     if request.method == 'POST':
         session['form_data']['satisfaction'] = request.form.get('satisfaction')
-        session['page'] = 4
+        session['visited_pages']['satisfaction'] = True
+        session.modified = True
         return redirect(url_for('satisfaction_reason'))
-    return render_template('satisfaction.html')
+
+    return render_template(
+        'satisfaction.html',
+        previous_satisfaction=session['form_data'].get('satisfaction', ''),
+        visited_satisfaction_page=session['visited_pages'].get('satisfaction', False)
+    )
+
 
 @app.route("/satisfaction_reason", methods=["GET", "POST"])
 def satisfaction_reason():
     if request.method == "POST":
         session.setdefault('form_data', {})
-        if session['form_data']['satisfaction'] == "No":
+
+        satisfaction = session['form_data'].get('satisfaction')
+
+        # If the user is dissatisfied
+        if satisfaction == "No":
             reason = request.form.get("dissatisfaction_reason", "").strip().lower()
             reason_text = request.form.get("dissatisfaction_reason_text", "").strip()
 
@@ -170,6 +193,7 @@ def satisfaction_reason():
             session['form_data']['dissatisfaction_reason_text'] = reason_text
             session.modified = True
 
+            # Redirect based on dissatisfaction reason
             if reason == "product":
                 return redirect(url_for("product_feedback"))
             elif reason == "staff":
@@ -179,13 +203,26 @@ def satisfaction_reason():
             else:
                 return redirect(url_for("additional_feedback"))
 
+        # If the user is satisfied
         else:
-            session['form_data']['satisfaction_reason'] = request.form.get("satisfaction_reason")
+            satisfaction_reason = request.form.get("satisfaction_reason", "").strip()
+            session['form_data']['satisfaction_reason'] = satisfaction_reason
             session.modified = True
+
             print("Satisfaction-related data being saved:", session['form_data'])
             return redirect(url_for('additional_feedback'))
-    print(session['form_data'])
-    return render_template("satisfaction_reason.html")
+
+    # For GET requests - retrieve saved values if any
+    form_data = session.get('form_data', {})
+    
+    return render_template(
+        "satisfaction_reason.html",
+        satisfaction=form_data.get('satisfaction', ''),
+        dissatisfaction_reason=form_data.get('dissatisfaction_reason', ''),
+        dissatisfaction_reason_text=form_data.get('dissatisfaction_reason_text', ''),
+        satisfaction_reason=form_data.get('satisfaction_reason', '')
+    )
+
 
 @app.route("/product_feedback", methods=["GET", "POST"])
 def product_feedback():
@@ -197,60 +234,89 @@ def product_feedback():
         print("Saved product reasons:", session['form_data'])
         return redirect(url_for("additional_feedback"))
     language = session.get('form_data', {}).get('language', 'English')
+    product_reasons = session.get('form_data', {}).get('product_reasons', []) 
     print(session['form_data'])
-    return render_template("product_feedback.html", language=language)
+    return render_template("product_feedback.html", language=language, product_reasons=product_reasons)
+
 
 
 @app.route("/staff_feedback", methods=["GET", "POST"])
 def staff_feedback():
+    session.setdefault('form_data', {})
+
     if request.method == "POST":
-        session.setdefault('form_data', {})
+        # Get selected staff reasons from form
         staff_reasons = request.form.getlist("staff_reasons")
-        session['form_data']['staff_reasons'] = staff_reasons  # Correct key
-        session.modified=True
+        session['form_data']['staff_reasons'] = staff_reasons
+        session.modified = True
+
         print("Saved staff reasons:", session['form_data'])
         return redirect(url_for("additional_feedback"))
-    language = session.get('form_data', {}).get('language', 'English')
-    print(session['form_data'])
-    return render_template("staff_feedback.html", language=language)
 
+    # GET request - load existing values
+    language = session['form_data'].get('language', 'English')
+    staff_reasons = session['form_data'].get('staff_reasons', [])
+
+    print("Staff feedback form loaded with data:", session['form_data'])
+    return render_template("staff_feedback.html", language=language, staff_reasons=staff_reasons)
 
 @app.route("/ambience_feedback", methods=["GET", "POST"])
 def ambience_feedback():
+    session.setdefault('form_data', {})
+
     if request.method == "POST":
-        session.setdefault('form_data', {})
+        # Get selected ambience reasons from form
         ambience_reasons = request.form.getlist("ambience_reasons")
-        session['form_data']['ambience_reasons'] = ambience_reasons  # Correct key
-        session.modified=True
+        session['form_data']['ambience_reasons'] = ambience_reasons
+        session.modified = True
+
         print("Saved ambience reasons:", session['form_data'])
         return redirect(url_for("additional_feedback"))
-    language = session.get('form_data', {}).get('language', 'English')
-    print(session['form_data'])
-    return render_template("ambience_feedback.html",language=language)
 
+    # GET request - load existing values
+    language = session['form_data'].get('language', 'English')
+    ambience_reasons = session['form_data'].get('ambience_reasons', [])
 
+    print("Ambience feedback form loaded with data:", session['form_data'])
+    return render_template("ambience_feedback.html", language=language, selected=ambience_reasons)
 
 @app.route("/additional_feedback", methods=["GET", "POST"])
 def additional_feedback():
+    session.setdefault('form_data', {})
+
     if request.method == "POST":
-        session.setdefault('form_data', {})
+        # Save additional feedback
         session['form_data']['additional_feedback'] = request.form.get("additional_feedback")
         session.modified = True
-        return redirect(url_for("nps"))  # ✅ Go to NPS page next
-    print("Form data at additional_feedback:", session.get('form_data', {}))
-    return render_template("additional_feedback.html")
 
+        print("Saved additional feedback:", session['form_data'])
+        return redirect(url_for("nps"))  # ✅ Redirect to NPS page
 
+    # GET request - retrieve existing feedback if any
+    existing_feedback = session['form_data'].get('additional_feedback', '')
 
+    print("Form data at additional_feedback:", session['form_data'])
+    return render_template("additional_feedback.html", existing_feedback=existing_feedback)
 
 @app.route('/nps', methods=['GET', 'POST'])
 def nps():
-    if request.method == 'POST':
-        session['form_data']['nps'] = request.form.get('nps')
-        session['page'] = 7
-        return redirect(url_for('contact_info'))
-    return render_template('nps.html')
+    session.setdefault('form_data', {})
 
+    if request.method == 'POST':
+        # Save NPS score
+        session['form_data']['nps'] = request.form.get('nps')
+        session['returning'] = True  # Mark user as returning
+        session['page'] = 7
+        session.modified = True
+
+        print("NPS data saved:", session['form_data'])
+        return redirect(url_for('contact_info'))
+
+    # Pre-fill previous NPS score if user is returning
+    previous_nps = session['form_data'].get('nps', '') if session.get('returning') else ''
+
+    print("Form data at NPS:", session['form_data'])
+    return render_template('nps.html', previous_nps=previous_nps)
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact_info():
@@ -322,7 +388,7 @@ def verify_phone():
         else:
             flash('Invalid phone number format. Please enter a valid UAE number.', 'error')
     return render_template('verify_phone.html')
-
+ 
 @app.route('/enter-otp', methods=['GET', 'POST'])
 def enter_otp():
     if request.method == 'POST':
@@ -335,7 +401,8 @@ def enter_otp():
 @app.route('/start-over')
 def start_over():
     session.clear()
-    return redirect(url_for('language_selection'))  # or your actual starting route
+    return redirect(url_for('thank-you'))  # or your actual starting route
+    
 if __name__ == '__main__':
     #threading.Thread(target=open_browser).start()
     app.run(debug=True)
