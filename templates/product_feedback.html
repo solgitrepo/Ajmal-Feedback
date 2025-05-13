@@ -9,29 +9,34 @@
 </h2>
 <form method="POST">
     <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="product_reasons" value="Not enough variety" id="p1">
+        <input class="form-check-input" type="checkbox" name="product_reasons" value="Not enough variety" id="p1"
+        {% if "Not enough variety" in product_reasons %}checked{% endif %}>
         <label class="form-check-label" for="p1">
             {% if session.language == 'Arabic' %} لا يوجد تنوع كاف {% else %} Not enough variety {% endif %}
         </label>
     </div>
     <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="product_reasons" value="No offers or promotions on selected products" id="p2">
+        <input class="form-check-input" type="checkbox" name="product_reasons" value="No offers or promotions on selected products" id="p2"
+        {% if "No offers or promotions on selected products" in product_reasons %}checked{% endif %}>
         <label class="form-check-label" for="p2">
-            {% if session.language == 'Arabic' %} لا توجد عروض على المنتجات المفضلة لي{% else %} No offers or promotions on selected products {% endif %}
+            {% if session.language == 'Arabic' %} لا توجد عروض على المنتجات المفضلة لي {% else %} No offers or promotions on selected products {% endif %}
         </label>
     </div>
     <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="product_reasons" value="The prices were higher than expected" id="p3">
+        <input class="form-check-input" type="checkbox" name="product_reasons" value="No offers or promotions on selected products" id="p3"
+        {% if "No offers or promotions on selected products" in product_reasons %}checked{% endif %}>
         <label class="form-check-label" for="p3">
-            {% if session.language == 'Arabic' %} كانت الأسعار أعلى من المتوقع{% else %} The prices were higher than expected {% endif %}
+            {% if session.language == 'Arabic' %} كانت الأسعار أعلى من المتوقع {% else %} The prices were higher than expected {% endif %}
         </label>
     </div>
     <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="product_reasons" value="My preferred item was out of stock" id="p4">
+        <input class="form-check-input" type="checkbox" name="product_reasons" value="My preferred item was out of stock" id="p4"
+        {% if "My preferred item was out of stock" in product_reasons %}checked{% endif %}>
         <label class="form-check-label" for="p4">
             {% if session.language == 'Arabic' %} كان إختياري المفضل غير متوفر {% else %} My preferred item was out of stock {% endif %}
         </label>
     </div>
+
     <br>
     <div class="d-grid gap-2">
         <button type="submit" class="btn btn-primary">
@@ -49,6 +54,7 @@
             {% endif %}
         </a>
     </div>
+
     
 </form>
 {% endblock %}
