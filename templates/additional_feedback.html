@@ -5,9 +5,9 @@
     <div class="progress-bar" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
 
-{% if session.form_data.satisfaction == 'Yes' %}
+{% if session.form_data['satisfaction'] == 'Yes' %}
     <h2 class="text-center mb-4">
-        {% if session.language == 'Arabic' %}
+        {% if session['language'] == 'Arabic' %}
             هل ترغب في مشاركة أي ملاحظات إضافية تتعلق بتجربة تسوقك الأخيرة؟
         {% else %}
             Would you like to share any additional feedback related to your recent shopping experience?
@@ -15,7 +15,7 @@
     </h2>
 {% else %}
     <h2 class="text-center mb-4">
-        {% if session.language == 'Arabic' %}
+        {% if session['language'] == 'Arabic' %}
             نأسف لإضاعة الفرصة لتزويدك بتجربة تسوق ممتعة لا تتردد في مشاركة أي تعليقات إضافية تتعلق بتجربتك الأخيرة
         {% else %}
             We regret having missed the opportunity in providing you with a pleasant shopping experience. Please feel free to share any additional feedback related to your recent experience.
@@ -23,27 +23,38 @@
     </h2>
 {% endif %}
 
-<form method="POST" class="text-center">
+<form method="POST">
     <div class="mb-3">
-        <textarea class="form-control" name="feedback" rows="4" placeholder="{% if session.language == 'Arabic' %}اكتب ملاحظاتك هنا{% else %}Write your feedback here{% endif %}"></textarea>
+        <textarea class="form-control" name="additional_feedback" rows="4"
+        placeholder="{% if session.language == 'Arabic' %}اكتب ملاحظاتك هنا{% else %}Write your feedback here{% endif %}">{{ existing_feedback }}</textarea>
+
+
     </div>
-    
-    <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary">
-            {% if session.language == 'Arabic' %}
-                ←التالي 
-            {% else %}
-                Next →
-            {% endif %}
-        </button>
-        <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
-            {% if session.language == 'Arabic' %}
-                السابق→
-            {% else %}
+    <div class="row">
+        <div class="col text-start">
+            <a href="{% if session.form_data['satisfaction'] == 'No' %}
+                        {% if session.form_data['dissatisfaction_reason'] == 'product' %}
+                            {{ url_for('product_feedback') }}
+                        {% elif session.form_data['dissatisfaction_reason'] == 'staff' %}
+                            {{ url_for('staff_feedback') }}
+                        {% elif session.form_data['dissatisfaction_reason'] == 'ambience' %}
+                            {{ url_for('ambience_feedback') }}
+                        {% else %}
+                            {{ url_for('satisfaction_reason') }}
+                        {% endif %}
+                    {% else %}
+                        {{ url_for('satisfaction_reason') }}
+                    {% endif %}"
+            class="btn btn-outline-secondary">
                 ← Previous
-            {% endif %}
-        </a>
-    </div>
+            </a>
+        </div>
     
-</form>
-{% endblock %} 
+        <div class="col text-end">
+            <button type="submit" class="btn btn-primary">
+                Next →
+            </button>
+        </div>
+    </div>
+</form>    
+{% endblock %}
