@@ -10,38 +10,52 @@
         هل هذه زيارتك الأولى لمتجر أجمل؟
     {% else %}
         Is this your first visit to an Ajmal Store?
-    {% endif %}
+    {% endif %} 
 </h2>
 
 <form method="POST" class="text-center">
     <div class="form-check form-check-inline mb-4">
-        <input class="form-check-input" type="radio" name="first_visit" id="yes" value="Yes" required>
+        <input class="form-check-input" type="radio" name="first_visit" id="yes" value="Yes" 
+        {% if previous_first_visit == 'Yes' %}checked{% endif %}>
+    <!--{% if visited_first_visit_page and previous_first_visit == 'Yes' %}checked{% endif %}>-->
         <label class="form-check-label" for="yes">
             {% if session.language == 'Arabic' %}نعم{% else %}Yes{% endif %}
         </label>
     </div>
     <div class="form-check form-check-inline mb-4">
-        <input class="form-check-input" type="radio" name="first_visit" id="no" value="No">
+        <input class="form-check-input" type="radio" name="first_visit" id="no" value="No"
+        {% if previous_first_visit == 'No' %}checked{% endif %}>
+        <!--{% if visited_first_visit_page and previous_first_visit == 'No' %}checked{% endif %}>-->
         <label class="form-check-label" for="no">
             {% if session.language == 'Arabic' %}لا{% else %}No{% endif %}
         </label>
     </div>
-    
-    <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary">
-            {% if session.language == 'Arabic' %}
-                ←التالي 
-            {% else %}
-                Next →
-            {% endif %}
-        </button>
-        <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
-            {% if session.language == 'Arabic' %}
-                السابق→
-            {% else %}
-                ← Previous
-            {% endif %}
-        </a>
+
+    <div class="row">
+        {% if session.language == 'Arabic' %}
+            <div class="col text-start">
+                <button type="submit" class="btn btn-primary">
+                    ← التالي
+                </button>
+            </div>
+            <div class="col text-end">
+                <a href="{{ url_for('intro') }}" class="btn btn-outline-secondary">
+                    السابق →
+                </a>
+            </div>
+        {% else %}
+            <div class="col text-start">
+                <a href="{{ url_for('intro') }}" class="btn btn-outline-secondary">
+                    ← Previous
+                </a>
+            </div>
+            <div class="col text-end">
+                <button type="submit" class="btn btn-primary">
+                    Next →
+                </button>
+            </div>
+        {% endif %}
     </div>
+    
 </form>
 {% endblock %} 
