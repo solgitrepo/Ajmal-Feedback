@@ -14,7 +14,8 @@
         {% endif %}
     </h2>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" name="satisfaction_reason" id="found_exactly" value="I found exactly what I was looking for" required>
+            <input class="form-check-input" type="radio" name="satisfaction_reason" id="found_exactly" value="I found exactly what I was looking for" 
+            {% if session.form_data.get('satisfaction_reason') == 'I found exactly what I was looking for' %}checked{% endif %} required>
             <label class="form-check-label" for="found_exactly">
                 {% if session.language == 'Arabic' %}
                     وجدت بالضبط ما كنت أبحث عنه
@@ -24,7 +25,8 @@
             </label>
         </div>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" name="satisfaction_reason" id="happy_price" value="I was happy with the price and promotions">
+            <input class="form-check-input" type="radio" name="satisfaction_reason" id="happy_price" value="I was happy with the price and promotions"
+            {% if session.form_data.get('satisfaction_reason') == 'I was happy with the price and promotions' %}checked{% endif %} required>
             <label class="form-check-label" for="happy_price">
                 {% if session.language == 'Arabic' %}
                     كنت سعيداً بالسعر والعروض الترويجية
@@ -34,7 +36,8 @@
             </label>
         </div>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" name="satisfaction_reason" id="staff_helpful" value="The store staff were very helpful and provided good customer service">
+            <input class="form-check-input" type="radio" name="satisfaction_reason" id="staff_helpful" value="The store staff were very helpful and provided good customer service"
+            {% if session.form_data.get('satisfaction_reason') == 'The store staff were very helpful and provided good customer service' %}checked{% endif %} required>
             <label class="form-check-label" for="staff_helpful">
                 {% if session.language == 'Arabic' %}
                     كنت سعيداً بمستوى خدمة العملاء       
@@ -44,7 +47,8 @@
             </label>
         </div>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" name="satisfaction_reason" id="all_above" value="All of the above">
+            <input class="form-check-input" type="radio" name="satisfaction_reason" id="all_above" value="All of the above"
+            {% if session.form_data.get('satisfaction_reason') == 'All of the above' %}checked{% endif %} required>
             <label class="form-check-label" for="all_above">
                 {% if session.language == 'Arabic' %}
                     كل ما سبق
@@ -54,7 +58,8 @@
             </label>
         </div>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" name="satisfaction_reason" id="other" value="Other">
+            <input class="form-check-input" type="radio" name="satisfaction_reason" id="other" value="Other"
+            {% if session.form_data.get('satisfaction_reason') == 'Other' %}checked{% endif %} required>
             <label class="form-check-label" for="other">
                 {% if session.language == 'Arabic' %}
                     أخرى
@@ -73,7 +78,8 @@
     </h2>
 
         <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="product" value="product" required>
+            <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="product" value="product" 
+            {% if session.form_data.get('dissatisfaction_reason') == 'product' %}checked{% endif %} required>
             <label class="form-check-label" for="product">
                 {% if session.language == 'Arabic' %}
                     المنتج
@@ -83,7 +89,8 @@
             </label>
         </div>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="staff" value="staff">
+            <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="staff" value="staff"
+            {% if session.form_data.get('dissatisfaction_reason') == 'staff' %}checked{% endif %}>
             <label class="form-check-label" for="staff">
                 {% if session.language == 'Arabic' %}
                     الموظفين
@@ -93,7 +100,8 @@
             </label>
         </div>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="ambience" value="ambience">
+            <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="ambience" value="ambience"
+            {% if session.form_data.get('dissatisfaction_reason') == 'ambience' %}checked{% endif %}>
             <label class="form-check-label" for="ambience">
                 {% if session.language == 'Arabic' %}
                     الأجواء
@@ -103,7 +111,8 @@
             </label>
         </div>
         <div class="form-check mb-3">
-            <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="other" value="other">
+            <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="other" value="other"
+            {% if session.form_data.get('dissatisfaction_reason') == 'other' %}checked{% endif %}>
             <label class="form-check-label" for="other">
                 {% if session.language == 'Arabic' %}
                     أخرى
@@ -115,22 +124,31 @@
     
 {% endif %}
 
-    <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary">
-            {% if session.language == 'Arabic' %}
-                ←التالي 
-            {% else %}
-                Next →
-            {% endif %}
-        </button>
-        <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
-            {% if session.language == 'Arabic' %}
-                السابق→
-            {% else %}
+<div class="row">
+    {% if session.language == 'Arabic' %}
+        <div class="col text-start">
+            <button type="submit" class="btn btn-primary">
+                التالي →
+            </button>
+        </div>
+        <div class="col text-end">
+            <a href="{{ url_for('satisfaction') }}" class="btn btn-outline-secondary">
+                ← السابق
+            </a>
+        </div>
+    {% else %}
+        <div class="col text-start">
+            <a href="{{ url_for('satisfaction') }}" class="btn btn-outline-secondary">
                 ← Previous
-            {% endif %}
-        </a>
-    </div>
+            </a>
+        </div>
+        <div class="col text-end">
+            <button type="submit" class="btn btn-primary">
+                Next →
+            </button>
+        </div>
+    {% endif %}
+</div>
 
 </form>
-{% endblock %} 
+{% endblock %}
