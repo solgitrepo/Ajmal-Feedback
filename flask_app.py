@@ -144,22 +144,22 @@ def start_survey():
 
 @app.route('/first-visit', methods=['GET', 'POST'])
 def first_visit():
-    session.setdefault('form_data', {})
-    session.setdefault('visited_pages', {})
+    form_data = session.get('form_data', {})
+    visited_pages = session.get('visited_pages', {})
 
     if request.method == 'POST':
-        session['form_data']['first_visit'] = request.form.get('first_visit')
-        session['visited_pages']['first_visit'] = True
+        form_data['first_visit'] = request.form.get('first_visit')
+        visited_pages['first_visit'] = True
+
+        # Explicitly assign the entire objects back to session
+        session['form_data'] = form_data
+        session['visited_pages'] = visited_pages
         session.modified = True
+
         return redirect(url_for('satisfaction'))
     
-    previous_first_visit = session['form_data'].get('first_visit', '')
+    previous_first_visit = session.get('form_data', {}).get('first_visit', '')
     return render_template('first_visit.html', previous_first_visit=previous_first_visit)
-    '''return render_template(
-        'first_visit.html',
-        previous_first_visit=session['form_data'].get('first_visit', ''),
-        visited_first_visit_page=session['visited_pages'].get('first_visit', False)
-    )'''
 
 
 @app.route('/satisfaction', methods=['GET', 'POST'])
