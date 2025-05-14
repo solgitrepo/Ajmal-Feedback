@@ -2,60 +2,58 @@
 
 {% block content %}
 <div class="progress">
-    <div class="progress-bar" role="progressbar" style="width: 12.5%;" aria-valuenow="12.5" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 </div>
 
 <h2 class="text-center mb-4">
     {% if session.language == 'Arabic' %}
-        هل هذه زيارتك الأولى لمتجر أجمل؟
+        هل أنت راضٍ عن تجربة التسوق الأخيرة التي قمت بها؟
     {% else %}
-        Is this your first visit to an Ajmal Store?
-    {% endif %} 
+        Are you satisfied with your recent shopping experience?
+    {% endif %}
 </h2>
 
 <form method="POST" class="text-center">
     <div class="form-check form-check-inline mb-4">
-        <input class="form-check-input" type="radio" name="first_visit" id="yes" value="Yes" 
-        {% if previous_first_visit == 'Yes' %}checked{% endif %}>
-    
+        <input class="form-check-input" type="radio" name="satisfaction" id="yes" value="Yes"
+        {% if visited_satisfaction_page and previous_satisfaction == 'Yes' %}checked{% endif %}>
         <label class="form-check-label" for="yes">
             {% if session.language == 'Arabic' %}نعم{% else %}Yes{% endif %}
         </label>
     </div>
     <div class="form-check form-check-inline mb-4">
-        <input class="form-check-input" type="radio" name="first_visit" id="no" value="No"
-        {% if previous_first_visit == 'No' %}checked{% endif %}>
+        <input class="form-check-input" type="radio" name="satisfaction" id="no" value="No"
+        {% if visited_satisfaction_page and previous_satisfaction == 'No' %}checked{% endif %}>
         
         <label class="form-check-label" for="no">
             {% if session.language == 'Arabic' %}لا{% else %}No{% endif %}
         </label>
     </div>
-
+    
     <div class="row">
         {% if session.language == 'Arabic' %}
             <div class="col text-start">
                 <button type="submit" class="btn btn-primary">
-                    ← التالي
+                    التالي →
                 </button>
             </div>
             <div class="col text-end">
-                <a href="{{ url_for('intro') }}" class="btn btn-outline-secondary">
-                    السابق →
+                <a href="{{ url_for('first_visit') }}" class="btn btn-outline-secondary">
+                    ← السابق
                 </a>
             </div>
         {% else %}
             <div class="col text-start">
-                <a href="{{ url_for('intro') }}" class="btn btn-outline-secondary">
+                <a href="{{ url_for('first_visit') }}" class="btn btn-outline-secondary">
                     ← Previous
                 </a>
             </div>
             <div class="col text-end">
                 <button type="submit" class="btn btn-primary">
-                    Next →
+                    Next → 
                 </button>
             </div>
         {% endif %}
     </div>
-    
 </form>
-{% endblock %} 
+{% endblock %}
