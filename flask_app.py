@@ -141,6 +141,7 @@ def start_survey():
     return redirect(url_for('first_visit'))
 
 
+
 @app.route('/first-visit', methods=['GET', 'POST'])
 def first_visit():
     session.setdefault('form_data', {})
@@ -151,12 +152,14 @@ def first_visit():
         session['visited_pages']['first_visit'] = True
         session.modified = True
         return redirect(url_for('satisfaction'))
-
-    return render_template(
+    
+    previous_first_visit = session['form_data'].get('first_visit', '')
+    return render_template('first_visit.html', previous_first_visit=previous_first_visit)
+    '''return render_template(
         'first_visit.html',
         previous_first_visit=session['form_data'].get('first_visit', ''),
         visited_first_visit_page=session['visited_pages'].get('first_visit', False)
-    )
+    )'''
 
 
 @app.route('/satisfaction', methods=['GET', 'POST'])
