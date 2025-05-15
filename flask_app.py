@@ -21,18 +21,9 @@ logger = logging.getLogger(__name__)
 
 logger.info("Testing DB connection...")
 
-#print("Testing DB connection...")
-#engine = init_connection()
-#print("Engine:", engine)
-
-try:
-    print("Testing DB connection...")
-    engine = init_connection()
-    print("Engine:", engine)
-except Exception as e:
-    logger.error("Database connection failed: %s", str(e))
-    raise
-
+print("Testing DB connection...")
+engine = init_connection()
+print("Engine:", engine)
 app = Flask(__name__)
 #app.secret_key = os.urandom(24)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY")
@@ -49,7 +40,7 @@ init_database_tables()
 
 '''def open_browser():
     time.sleep(1)  # Wait a moment for the server to start
-    webbrowser.open_new('http://127.0.0.1:5000/ajmalfeedback-4D732203-CEFA-4827-AFE2-113853D5B053')'''
+    webbrowser.open_new('http://127.0.0.1:5000/')'''
 # Utility functions
 def generate_otp():
     """Generate a 6-digit OTP code"""
