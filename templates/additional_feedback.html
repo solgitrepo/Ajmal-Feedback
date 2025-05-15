@@ -31,30 +31,61 @@
 
     </div>
     <div class="row">
-        <div class="col text-start">
-            <a href="{% if session.form_data['satisfaction'] == 'No' %}
-                        {% if session.form_data['dissatisfaction_reason'] == 'product' %}
-                            {{ url_for('product_feedback') }}
-                        {% elif session.form_data['dissatisfaction_reason'] == 'staff' %}
-                            {{ url_for('staff_feedback') }}
-                        {% elif session.form_data['dissatisfaction_reason'] == 'ambience' %}
-                            {{ url_for('ambience_feedback') }}
+        {% if session.language == 'Arabic' %}
+            <!-- Arabic: Next on the left, Previous on the right -->
+            <div class="col text-start">
+                <button type="submit" class="btn btn-primary">
+                    ←التالي 
+                </button>
+            </div>
+            <div class="col text-end">
+                <a href="{% if session.form_data['satisfaction'] == 'No' %}
+                            {% if session.form_data['dissatisfaction_reason'] == 'product' %}
+                                {{ url_for('product_feedback') }}
+                            {% elif session.form_data['dissatisfaction_reason'] == 'staff' %}
+                                {{ url_for('staff_feedback') }}
+                            {% elif session.form_data['dissatisfaction_reason'] == 'ambience' %}
+                                {{ url_for('ambience_feedback') }}
+                            {% else %}
+                                {{ url_for('satisfaction_reason') }}
+                            {% endif %}
                         {% else %}
                             {{ url_for('satisfaction_reason') }}
-                        {% endif %}
-                    {% else %}
-                        {{ url_for('satisfaction_reason') }}
-                    {% endif %}"
-            class="btn btn-outline-secondary">
-                ← Previous
-            </a>
-        </div>
-    
-        <div class="col text-end">
-            <button type="submit" class="btn btn-primary">
-                Next →
-            </button>
-        </div>
+                        {% endif %}"
+                class="btn btn-outline-secondary">
+                السابق→
+                </a>
+            </div>
+        {% else %}
+            <!-- English: Previous on the left, Next on the right -->
+            <div class="col text-start">
+                <a href="{% if session.form_data['satisfaction'] == 'No' %}
+                            {% if session.form_data['dissatisfaction_reason'] == 'product' %}
+                                {{ url_for('product_feedback') }}
+                            {% elif session.form_data['dissatisfaction_reason'] == 'staff' %}
+                                {{ url_for('staff_feedback') }}
+                            {% elif session.form_data['dissatisfaction_reason'] == 'ambience' %}
+                                {{ url_for('ambience_feedback') }}
+                            {% else %}
+                                {{ url_for('satisfaction_reason') }}
+                            {% endif %}
+                        {% else %}
+                            {{ url_for('satisfaction_reason') }}
+                        {% endif %}"
+                class="btn btn-outline-secondary">
+                    ← Previous
+                </a>
+            </div>
+            <div class="col text-end">
+                <button type="submit" class="btn btn-primary">
+                    Next →
+                </button>
+            </div>
+        {% endif %}
     </div>
+    
+</div>
+    
+    
 </form>    
 {% endblock %}
