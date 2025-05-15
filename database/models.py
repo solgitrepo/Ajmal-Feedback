@@ -19,7 +19,7 @@ class GiftCode(Base):
     __tablename__ = 'giftcode'
     
     code = Column(String(255), primary_key=True)
-    store_id = Column(String(255), ForeignKey('stores.store_id'))
+    store_id = Column(String(255), ForeignKey('stores.store_id'), nullable=True)
     isdelete = Column(Boolean, default=False)
     isvalid = Column(Boolean, default=False)
     issent = Column(Boolean, default=False)
@@ -48,6 +48,6 @@ class Feedback(Base):
     feedback = Column(Text)
     branch = Column(String(100))
 
-    store_id = Column(String(255), ForeignKey('stores.store_id'))
+    store_id = Column(String(255), ForeignKey('stores.store_id'), nullable=True)
     store = relationship("Store", back_populates="feedbacks")
     
