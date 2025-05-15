@@ -32,12 +32,22 @@
         Free gift available till stocks last. Please enquire at store for availability. Free gift cannot be exchanged or returned.
     {% endif %}
 </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
 
 <form method="POST" class="text-center">
     <div class="mb-3">
         <input type="text" class="form-control text-center" name="otp"
-               placeholder="{% if session.language == 'Arabic' %} أدخل الرمز المكون من 6 أرقام {% else %} Enter 6-digit code {% endif %}"
-               required maxlength="6" pattern="[0-9]{6}">
+            placeholder="{% if session.language == 'Arabic' %} أدخل الرمز المكون من 6 أرقام {% else %} Enter 6-digit code {% endif %}"
+            required maxlength="6" pattern="[0-9]{6}">
     </div>
 
     <div class="row">
