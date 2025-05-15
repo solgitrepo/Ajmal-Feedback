@@ -87,38 +87,46 @@ def format_uae_number(phone_number):
 # Routes
 # Routes
 
-@app.route('/test')
-def test():
-    return "Hello, Azure!"
+
+@app.route('/')
+
+def home():
+    # Only update store_id if provided; don't reset session or OTP status
+    store_id = request.args.get('store_id')
+    if store_id:
+        session['store_id'] = store_id  # Update only if present
+
+    if 'form_data' not in session:
+        session['form_data'] = {}
+    #session.setdefault('otp_verified', False)  # Set only if not already set
+
+    return redirect(url_for('language_selection'))
+
 
 @app.route('/<store_url_id>')
 def index(store_url_id):
-    # Extract UUID from the slug using regex
+    # Try to extract UUID from the URL slug
     match = re.search(
         r'([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$', 
         store_url_id, 
         re.IGNORECASE
     )
-    
+
+    # If match, store ID is extracted and saved
     if match:
         store_id = match.group(1)
         session['store_id'] = store_id
         session['store_url_id'] = store_url_id
     else:
-        return "Invalid store URL", 404
-
-    # Initialize session data if not already set
-    session.setdefault('form_data', {})
-    session.setdefault('otp_verified', False)
+        session.pop('store_id', None)
+        session.pop('store_url_id', None)
+    # Initialize session data
+    if 'form_data' not in session:
+        session['form_data'] = {}
+    if 'otp_verified' not in session:
+        session['otp_verified'] = False
 
     return redirect(url_for('language_selection'))
-
-
-@app.route('/')
-def home():
-    if app.debug:  # Only allow this in debug mode
-        return redirect('/ajmalfeedback-14FB5A88-C0F2-4EA9-B804-0A6DE1E28EE6')
-    return "Store ID required", 40
 
 
 @app.route('/language', methods=['GET', 'POST'])
@@ -145,7 +153,6 @@ def start_survey():
     return redirect(url_for('first_visit'))
 
 
-
 @app.route('/first-visit', methods=['GET', 'POST'])
 def first_visit():
     form_data = session.get('form_data', {})
@@ -164,6 +171,11 @@ def first_visit():
     
     previous_first_visit = session.get('form_data', {}).get('first_visit', '')
     return render_template('first_visit.html', previous_first_visit=previous_first_visit)
+
+    ''' 'first_visit.html',
+        previous_first_visit=session['form_data'].get('first_visit', ''),
+        visited_first_visit_page=session['visited_pages'].get('first_visit', False)
+    )'''
 
 
 @app.route('/satisfaction', methods=['GET', 'POST'])
@@ -221,13 +233,14 @@ def satisfaction_reason():
 
     # For GET requests - retrieve saved values if any
     form_data = session.get('form_data', {})
-    
+    visited = session['visited_pages'].get('satisfaction_reason', False)
     return render_template(
         "satisfaction_reason.html",
         satisfaction=form_data.get('satisfaction', ''),
         dissatisfaction_reason=form_data.get('dissatisfaction_reason', ''),
         dissatisfaction_reason_text=form_data.get('dissatisfaction_reason_text', ''),
-        satisfaction_reason=form_data.get('satisfaction_reason', '')
+        satisfaction_reason=form_data.get('satisfaction_reason', ''),
+        visited_satisfaction_reason_page=visited
     )
 
 
@@ -285,7 +298,8 @@ def ambience_feedback():
     ambience_reasons = session['form_data'].get('ambience_reasons', [])
 
     print("Ambience feedback form loaded with data:", session['form_data'])
-    return render_template("ambience_feedback.html", language=language, selected=ambience_reasons)
+    return render_template("ambience_feedback.html", language=language, ambience_reasons=ambience_reasons)
+
 
 @app.route("/additional_feedback", methods=["GET", "POST"])
 def additional_feedback():
@@ -325,26 +339,35 @@ def nps():
     print("Form data at NPS:", session['form_data'])
     return render_template('nps.html', previous_nps=previous_nps)
 
+
 @app.route('/contact', methods=['GET', 'POST'])
 def contact_info():
     if request.method == 'POST':
+        # Save contact info to session
         session['form_data']['name'] = request.form.get('name')
         session['form_data']['email'] = request.form.get('email')
-        store_id = session.get('store_id')  # Get store_id from session
-        if session['form_data'] and store_id:
+
+        # Just get store_id if available — doesn't affect the flow
+        store_id = session.get('store_id')
+        session['form_data']['store_id'] = store_id  # Optional: attach to form_data
+
+        # Proceed if form data exists (no dependency on store_id)
+        if session['form_data']:
             session['submitted'] = True
             return redirect(url_for('verify_phone'))
-
         else:
             flash('Failed to save your feedback. Please try again.', 'error')
+            return redirect(url_for('contact'))
     print("Final form data being saved:", session.get("form_data"))
     return render_template('contact.html')
+
 
 @app.route('/thank-you', methods=['GET'])
 def thank_you():
     store_id = session.get('store_id')
     form_data = session.get('form_data', {})
-
+    if not store_id:
+        store_id = request.args.get('store_id')
     if form_data:
         phone = form_data.get('phone')
         
@@ -358,7 +381,8 @@ def thank_you():
         session.modified = True
 
         # Inject store_id for DB saving
-        form_data['store_id'] = store_id
+        if store_id:
+            form_data['store_id'] = store_id
 
         success, gift_code, is_first_time, sms_message = save_form_data(form_data)
 
@@ -374,7 +398,6 @@ def thank_you():
 
     session.clear()
     return redirect('/')
-
 
 @app.route('/verify-phone', methods=['GET', 'POST'])
 def verify_phone():
@@ -405,11 +428,13 @@ def enter_otp():
         else:
             flash('Invalid OTP. Please try again.', 'error')
     return render_template('enter_otp.html')
+
 @app.route('/start-over')
 def start_over():
     session.clear()
     return redirect(url_for('thank-you'))  # or your actual starting route
-    
+
+
 if __name__ == '__main__':
     #threading.Thread(target=open_browser).start()
     app.run(debug=True)
