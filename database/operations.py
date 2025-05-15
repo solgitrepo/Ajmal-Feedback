@@ -13,6 +13,7 @@ def phone_occurrence_count(phone_number):
             return 0
         count = session.query(Feedback).filter(Feedback.phone == phone_number).count()
         session.close()
+
         return count
     except Exception as e:
         print(f"[ERROR] Failed to check phone count: {str(e)}")
@@ -32,18 +33,20 @@ def save_form_data(form_data):
         if not phone_number:
             return False, None, False, "Missing phone number"
 
-        store_id = form_data.get('store_id', '').strip()
-        if not store_id:
-            return False, None, False, "Missing store ID"
+        store_id = (form_data.get('store_id') or '').strip()
+        '''if not store_id:
+            return False, None, False, "Missing store ID"'''
 
         # Ensure store exists
-        store = session.query(Store).filter_by(store_id=store_id).first()
-        if not store:
-            generated_link = f"https://yourdomain.com/store/{store_id}"  # Customize this as needed
-            store = Store(store_id=store_id, link=generated_link)
-            session.add(store)
-            session.commit()
-            print(f"[INFO] Created new store with ID {store_id}")
+        store = None
+        if store_id:
+            store = session.query(Store).filter_by(store_id=store_id).first()
+            if not store:
+                generated_link = f"https://yourdomain.com/store/{store_id}"
+                store = Store(store_id=store_id, link=generated_link)
+                session.add(store)
+                session.commit()
+                print(f"[INFO] Created new store with ID {store_id}")
 
         occurrence_count = phone_occurrence_count(phone_number)
         is_first_time = occurrence_count == 0
@@ -80,7 +83,8 @@ def save_form_data(form_data):
             store_id=store_id
         )
         session.add(feedback_record)
-
+        session.flush()
+        
         gift_code_value = None
         message = ""
 
