@@ -93,28 +93,32 @@ def test():
 
 @app.route('/<store_url_id>')
 def index(store_url_id):
-    # Extract UUID from the store_url_id using regex
-    match = re.search(r'([A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12})$', store_url_id, re.IGNORECASE)
+    # Extract UUID from the slug using regex
+    match = re.search(
+        r'([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$', 
+        store_url_id, 
+        re.IGNORECASE
+    )
+    
     if match:
         store_id = match.group(1)
         session['store_id'] = store_id
-        session['store_url_id'] = store_url_id  # Save full slug
+        session['store_url_id'] = store_url_id
     else:
         return "Invalid store URL", 404
 
-    # Initialize session
+    # Initialize session data if not already set
     session.setdefault('form_data', {})
     session.setdefault('otp_verified', False)
 
-    # No OTP check here anymore
     return redirect(url_for('language_selection'))
-
 
 
 @app.route('/')
 def home():
-    # Redirect to default store for testing
-    return redirect('/ajmalfeedback-14FB5A88-C0F2-4EA9-B804-0A6DE1E28EE6')
+    if app.debug:  # Only allow this in debug mode
+        return redirect('/ajmalfeedback-14FB5A88-C0F2-4EA9-B804-0A6DE1E28EE6')
+    return "Store ID required", 40
 
 
 @app.route('/language', methods=['GET', 'POST'])
