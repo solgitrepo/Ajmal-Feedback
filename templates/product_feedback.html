@@ -23,8 +23,8 @@
         </label>
     </div>
     <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="product_reasons" value="No offers or promotions on selected products" id="p3"
-        {% if "No offers or promotions on selected products" in product_reasons %}checked{% endif %}>
+        <input class="form-check-input" type="checkbox" name="product_reasons" value="The price was higher than expectation" id="p3"
+        {% if "The price was higher than expectation" in product_reasons %}checked{% endif %}>
         <label class="form-check-label" for="p3">
             {% if session.language == 'Arabic' %} كانت الأسعار أعلى من المتوقع {% else %} The prices were higher than expected {% endif %}
         </label>
@@ -49,6 +49,7 @@
         <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
             {% if session.language == 'Arabic' %}
                 السابق→
+
             {% else %}
                 ← Previous
             {% endif %}
