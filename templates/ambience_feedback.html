@@ -65,14 +65,14 @@
     <div class="row">
         {% if session.language == 'Arabic' %}
             <div class="col text-start">
-                <button type="submit" class="btn btn-primary">
-                    ← التالي
-                </button>
+                <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
+                    السابق→
+                </a>
             </div>
             <div class="col text-end">
-                <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
-                    السابق →
-                </a>
+                <button type="submit" class="btn btn-primary">
+                    ←التالي 
+                </button>
             </div>
         {% else %}
             <div class="col text-start">
