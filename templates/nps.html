@@ -15,25 +15,32 @@
 
 <form method="POST" class="text-center">
     <div class="card p-3 mb-4">
-        <div class="nps-scale d-flex flex-wrap justify-content-center">
-            {% for i in range(11) %}
-                <div class="form-check form-check-inline m-1">
-                    <input class="form-check-input" type="radio" name="nps" id="nps{{ i }}" value="{{ i }}"
-                        {% if previous_nps is not none and previous_nps == i|string %}checked{% endif %}>
-                    <label class="form-check-label" for="nps{{ i }}">{{ i }}</label>
-                </div>
-            {% endfor %}
+        <!-- Ribbon wrapper with horizontal scrolling for mobile -->
+        <div class="nps-ribbon-container overflow-auto">
+            <div class="d-flex nps-ribbon justify-content-start">
+                {% for i in range(11) %}
+                    <div class="nps-item text-center">
+                        <input class="d-none" type="radio" name="nps" id="nps{{ i }}" value="{{ i }}"
+                            {% if previous_nps is not none and previous_nps == i|string %}checked{% endif %}>
+                        <label class="nps-label" for="nps{{ i }}"
+                            style="background-color: hsl({{ 120 * i // 10 }}, 80%, 80%);">
+                            {{ i }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
 
-        <div class="row mt-3 mb-2">
-            <div class="col-6 text-start small">
+        <!-- Labels below the ribbon -->
+        <div class="row mt-3">
+            <div class="col-6 text-start small text-muted">
                 {% if session.language == 'Arabic' %}
                     ليس من المحتمل على الإطلاق
                 {% else %}
                     Not at all likely
                 {% endif %}
             </div>
-            <div class="col-6 text-end small">
+            <div class="col-6 text-end small text-muted">
                 {% if session.language == 'Arabic' %}
                     محتمل للغاية
                 {% else %}
@@ -41,51 +48,64 @@
                 {% endif %}
             </div>
         </div>
-    </div>
+        
 
-    
+    <!-- Navigation buttons -->
     <div class="row">
         {% if session.language == 'Arabic' %}
             <div class="col text-start">
-                <button type="submit" class="btn btn-primary">
-                    ←التالي 
-                </button>
+                <button type="submit" class="btn btn-primary">←التالي</button>
             </div>
             <div class="col text-end">
-                <a href="{{ url_for('additional_feedback') }}" class="btn btn-outline-secondary">
-                    السابق→
-
-                </a>
+                <a href="{{ url_for('additional_feedback') }}" class="btn btn-outline-secondary">السابق→</a>
             </div>
         {% else %}
             <div class="col text-start">
-                <a href="{{ url_for('additional_feedback') }}" class="btn btn-outline-secondary">
-                    ← Previous
-                </a>
+                <a href="{{ url_for('additional_feedback') }}" class="btn btn-outline-secondary">← Previous</a>
             </div>
             <div class="col text-end">
-                <button type="submit" class="btn btn-primary">
-                    Next →
-                </button>
+                <button type="submit" class="btn btn-primary">Next →</button>
             </div>
         {% endif %}
     </div>
-
-    
 </form>
 
+<!-- Styles -->
 <style>
-.nps-scale {
-    gap: 0.25rem;
-    flex-wrap: wrap;
-}
-.form-check-inline {
-    margin-right: 0;
-}
-.card {
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: 0.5rem;
-}
-</style>
+    .nps-ribbon-container {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+    
+    .nps-ribbon {
+        flex-wrap: nowrap;
+        min-width: 600px; /* Maintains a single-line ribbon on scroll */
+        justify-content: center;
+    }
+    
+    .nps-item {
+        flex: 0 0 auto;
+        width: 50px;
+        margin: 0 4px;
+        text-align: center;
+    }
+    
+    .nps-label {
+        display: block;
+        padding: 10px 0;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: border 0.2s ease-in-out;
+        background-color: #e0e0e0;
+    }
+    
+    input[type="radio"]:checked + .nps-label {
+        border: 2px solid #333;
+        background-color: #cdeac0 !important;
+    }
+    </style>
+    
 {% endblock %}
