@@ -122,6 +122,8 @@ def index(store_url_id):
 
 @app.route('/language', methods=['GET', 'POST'])
 def language_selection():
+    user_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+    logger.info(f"User IP: {user_ip}")
     if request.method == 'POST':
         selected_language = request.form.get('language')
         session['language'] = selected_language
