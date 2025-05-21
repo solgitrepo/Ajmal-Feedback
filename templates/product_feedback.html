@@ -7,30 +7,31 @@
         Please select one or more of the reasons listed below.
     {% endif %}
 </h2>
-<form method="POST">
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="product_reasons" value="Not enough variety" id="p1"
+<div class="d-flex justify-content-center">
+    <form method="POST" class="text-center" style="width: 100%; max-width: 500px;">
+        <div class="option-box">
+            <input class="form-check-input me-2" type="checkbox" name="product_reasons" value="Not enough variety" id="p1"
         {% if "Not enough variety" in product_reasons %}checked{% endif %}>
         <label class="form-check-label" for="p1">
             {% if session.language == 'Arabic' %} لا يوجد تنوع كاف {% else %} Not enough variety {% endif %}
         </label>
     </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="product_reasons" value="No offers or promotions on selected products" id="p2"
+    <div class="option-box">
+            <input class="form-check-input me-2" type="checkbox" name="product_reasons" value="No offers or promotions on selected products" id="p2"
         {% if "No offers or promotions on selected products" in product_reasons %}checked{% endif %}>
         <label class="form-check-label" for="p2">
             {% if session.language == 'Arabic' %} لا توجد عروض على المنتجات المفضلة لي {% else %} No offers or promotions on selected products {% endif %}
         </label>
     </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="product_reasons" value="The price was higher than expectation" id="p3"
+    <div class="option-box">
+        <input class="form-check-input me-2" type="checkbox" name="product_reasons" value="The price was higher than expectation" id="p3"
         {% if "The price was higher than expectation" in product_reasons %}checked{% endif %}>
         <label class="form-check-label" for="p3">
             {% if session.language == 'Arabic' %} كانت الأسعار أعلى من المتوقع {% else %} The prices were higher than expected {% endif %}
         </label>
     </div>
-    <div class="form-check">
-        <input class="form-check-input" type="checkbox" name="product_reasons" value="My preferred item was out of stock" id="p4"
+    <div class="option-box">
+        <input class="form-check-input me-2" type="checkbox" name="product_reasons" value="My preferred item was out of stock" id="p4"
         {% if "My preferred item was out of stock" in product_reasons %}checked{% endif %}>
         <label class="form-check-label" for="p4">
             {% if session.language == 'Arabic' %} كان إختياري المفضل غير متوفر {% else %} My preferred item was out of stock {% endif %}
@@ -38,24 +39,31 @@
     </div>
 
     <br>
-    <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary">
-            {% if session.language == 'Arabic' %}
-                ←التالي 
-            {% else %}
-                Next →
-            {% endif %}
-        </button>
-        <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
-            {% if session.language == 'Arabic' %}
-                السابق→
-
-            {% else %}
-                ← Previous
-            {% endif %}
-        </a>
+    <div class="row">
+        {% if session.language == 'Arabic' %}
+            <div class="col-6 d-flex justify-content-start">
+                <button type="submit" class="btn btn-primary">
+                    ←التالي 
+                </button>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+                <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
+                    السابق→
+                </a>
+            </div>
+        {% else %}
+            <div class="col-6 d-flex justify-content-start">
+                <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
+                    ← Previous
+                </a>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+                <button type="submit" class="btn btn-primary">
+                    Next →
+                </button>
+            </div>
+        {% endif %}
     </div>
-
     
-</form>
-{% endblock %}
+    </form>
+    {% endblock %}
