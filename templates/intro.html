@@ -3,41 +3,39 @@
 {% block content %}
 <div class="container text-center" style="max-width: 700px; margin: auto;">
 
-    <div class="mb-4" style="border: 1px solid #ccc; padding: 20px; border-radius: 8px;">
-        {% if session.form_data.language == "Arabic" %}
-            <p class="mb-3">نشكرك على مشاركتك في استبيان آراء العملاء الخاص بأجمل.</p>
-            <p class="mb-3">ملاحظاتك قيمة بالنسبة لنا.</p>
-            <p class="mb-4">للتعبير عن امتناننا، نطلب منك مشاركة رقم هاتفك حتى تتمكن من استرداد هديتك المجانية.</p>
+    {% if session.form_data.language == "Arabic" %}
+        <p class="mb-3">نشكرك على مشاركتك في استبيان آراء العملاء الخاص بأجمل.</p>
+        <p class="mb-3">ملاحظاتك قيمة بالنسبة لنا.</p>
+        <p class="mb-4">للتعبير عن امتناننا، نطلب منك مشاركة رقم هاتفك حتى تتمكن من استرداد هديتك المجانية.</p>
 
-            <p class="text-start"><strong>: الشروط والأحكام</strong></p>
-            <ul class="text-start" style="list-style-type: disc; padding-left: 20px; direction: rtl;">
-                <li>
-                    <strong>هدية مجانية</strong> مخصصة لمقدمي التعليقات لأول مرة ويمكن استردادها في بعض المتاجر المختارة في الإمارات العربية المتحدة خلال ٦٠ يومًا من تاريخ الإصدار، عن طريق عرض رمز الهدية الفريد الذي سيتم إرساله عبر الرسائل النصية بعد التحقق الناجح من رقم الهاتف المحمول.
-                </li>
-                <li><strong>الهدايا المجانية متوفرة حتى نفاد الكمية.</strong> يرجى الاستفسار في المتجر عن التوفر.</li>
-                <li><strong>لا يمكن استبدال أو إرجاع الهدايا المجانية.</strong></li>
-            </ul>
-        {% else %}
-            <strong>Thank you for taking part in Ajmal Customer Feedback Program.</strong><br>
-            <p class="mb-3">Your input is valuable to us.</p>
-            <p class="mb-4">
-                As a gesture of gratitude, we kindly ask you to provide your phone number so that you may redeem your complimentary gift.
-            </p>
+        <p class="text-start"><strong>: الشروط والأحكام</strong></p>
+        <ul class="text-start" style="list-style-type: disc; padding-left: 20px; direction: rtl;">
+            <li>
+                <strong>هدية مجانية</strong> مخصصة لمقدمي التعليقات لأول مرة ويمكن استردادها في بعض المتاجر المختارة في الإمارات العربية المتحدة خلال ٦٠ يومًا من تاريخ الإصدار، عن طريق عرض رمز الهدية الفريد الذي سيتم إرساله عبر الرسائل النصية بعد التحقق الناجح من رقم الهاتف المحمول.
+            </li>
+            <li><strong>الهدايا المجانية متوفرة حتى نفاد الكمية.</strong> يرجى الاستفسار في المتجر عن التوفر.</li>
+            <li><strong>لا يمكن استبدال أو إرجاع الهدايا المجانية.</strong></li>
+        </ul>
+    {% else %}
+        <strong>Thank you for taking part in Ajmal Customer Feedback Program.</strong><br>
+        <p class="mb-3">Your input is valuable to us.</p>
+        <p class="mb-4">
+            As a gesture of gratitude, we kindly ask you to provide your phone number so that you may redeem your complimentary gift.
+        </p>
 
-            <p class="text-start"><strong>T&C</strong></p>
-            <ul class="text-start" style="list-style-type: disc; padding-left: 20px;">
-                <li>
-                    <strong>Complimentary gift</strong> is for first time feedback providers and can be redeemed at select stores across UAE within 60 days from date of issue, by showing the unique gift code that will be sent via an SMS post successful mobile number validation.
-                </li>
-                <li><strong>Free gift available till stocks last.</strong> Please enquire at store for availability.</li>
-                <li><strong>Free gift cannot be exchanged or returned.</strong></li>
-            </ul>
-        {% endif %}
-    </div>
+        <p class="text-start"><strong>T&C</strong></p>
+        <ul class="text-start" style="list-style-type: disc; padding-left: 20px;">
+            <li>
+                <strong>Complimentary gift</strong> is for first time feedback providers and can be redeemed at select stores across UAE within 60 days from date of issue, by showing the unique gift code that will be sent via an SMS post successful mobile number validation.
+            </li>
+            <li><strong>Free gift available till stocks last.</strong> Please enquire at store for availability.</li>
+            <li><strong>Free gift cannot be exchanged or returned.</strong></li>
+        </ul>
+    {% endif %}
 
-    <!-- Start Survey Button -->
+    <!-- Start Survey Button aligned to the right -->
     <form method="POST" action="{{ url_for('start_survey') }}">
-        <div class="d-grid gap-2 d-md-block">
+        <div class="d-flex justify-content-end mt-4">
             <button type="submit" class="btn btn-primary px-4">
                 {% if session.form_data.language == "Arabic" %}ابدأ الاستبيان{% else %}Start Survey{% endif %}
             </button>
