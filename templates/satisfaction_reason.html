@@ -1,19 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="progress">
-    <div class="progress-bar" role="progressbar" style="width: 37.5%;" aria-valuenow="37.5" aria-valuemin="0" aria-valuemax="100"></div>
+<div class="progress" style="height: 12px; background-color: #f0f1f5; border-radius: 10px;">
+    <div class="progress-bar progress-bar-striped"
+        role="progressbar"
+        style="width: 37.5%; background-color: #3ecf8e; border-radius: 10px;
+                background-image: repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.2),
+                rgba(255, 255, 255, 0.2) 10px,
+                transparent 10px,
+                transparent 20px
+                );"
+        aria-valuenow="37.5" aria-valuemin="0" aria-valuemax="100">
+    </div>
 </div>
-<form method="POST" class="text-start"> 
-{% if session.form_data.satisfaction == 'Yes' %}
-    <h2 class="text-center mb-4">
-        {% if session.language == 'Arabic' %}
-            أي من الجوانب التالية من تجربتك وجدتها أكثر إرضاءً؟
-        {% else %}
-            Which of the following aspects of your experience you found most satisfactory?
-        {% endif %}
+
+<div class="d-flex justify-content-center">
+    <form method="POST" class="text-center" style="width: 100%; max-width: 500px;">
+        {% if session.form_data.satisfaction == 'Yes' %}
+            <h2 class="text-center mb-4">
+                {% if session.language == 'Arabic' %}
+                    أي من الجوانب التالية من تجربتك وجدتها أكثر إرضاءً؟
+                {% else %}
+                    Which of the following aspects of your experience you found most satisfactory?
+                {% endif %}
     </h2>
-        <div class="form-check mb-3">
+    <div class="option-box">
             <input class="form-check-input" type="radio" name="satisfaction_reason" id="found_exactly" value="I found exactly what I was looking for" 
             {% if session.form_data.get('satisfaction_reason') == 'I found exactly what I was looking for' %}checked{% endif %} required>
             <label class="form-check-label" for="found_exactly">
@@ -24,7 +37,7 @@
                 {% endif %}
             </label>
         </div>
-        <div class="form-check mb-3">
+        <div class="option-box">
             <input class="form-check-input" type="radio" name="satisfaction_reason" id="happy_price" value="I was happy with the price and promotions"
             {% if session.form_data.get('satisfaction_reason') == 'I was happy with the price and promotions' %}checked{% endif %} required>
             <label class="form-check-label" for="happy_price">
@@ -35,7 +48,7 @@
                 {% endif %}
             </label>
         </div>
-        <div class="form-check mb-3">
+        <div class="option-box">
             <input class="form-check-input" type="radio" name="satisfaction_reason" id="staff_helpful" value="The store staff were very helpful and provided good customer service"
             {% if session.form_data.get('satisfaction_reason') == 'The store staff were very helpful and provided good customer service' %}checked{% endif %} required>
             <label class="form-check-label" for="staff_helpful">
@@ -46,7 +59,7 @@
                 {% endif %}
             </label>
         </div>
-        <div class="form-check mb-3">
+        <div class="option-box">
             <input class="form-check-input" type="radio" name="satisfaction_reason" id="all_above" value="All of the above"
             {% if session.form_data.get('satisfaction_reason') == 'All of the above' %}checked{% endif %} required>
             <label class="form-check-label" for="all_above">
@@ -57,7 +70,7 @@
                 {% endif %}
             </label>
         </div>
-        <div class="form-check mb-3">
+        <div class="option-box">
             <input class="form-check-input" type="radio" name="satisfaction_reason" id="other" value="Other"
             {% if session.form_data.get('satisfaction_reason') == 'Other' %}checked{% endif %} required>
             <label class="form-check-label" for="other">
@@ -77,7 +90,7 @@
         {% endif %}
     </h2>
 
-        <div class="form-check mb-3">
+        <div class="option-box">
             <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="product" value="product" 
             {% if session.form_data.get('dissatisfaction_reason') == 'product' %}checked{% endif %} required>
             <label class="form-check-label" for="product">
@@ -88,7 +101,7 @@
                 {% endif %}
             </label>
         </div>
-        <div class="form-check mb-3">
+        <div class="option-box">
             <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="staff" value="staff"
             {% if session.form_data.get('dissatisfaction_reason') == 'staff' %}checked{% endif %}>
             <label class="form-check-label" for="staff">
@@ -99,7 +112,7 @@
                 {% endif %}
             </label>
         </div>
-        <div class="form-check mb-3">
+        <div class="option-box">
             <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="ambience" value="ambience"
             {% if session.form_data.get('dissatisfaction_reason') == 'ambience' %}checked{% endif %}>
             <label class="form-check-label" for="ambience">
@@ -110,7 +123,7 @@
                 {% endif %}
             </label>
         </div>
-        <div class="form-check mb-3">
+        <div class="option-box">
             <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="other" value="other"
             {% if session.form_data.get('dissatisfaction_reason') == 'other' %}checked{% endif %}>
             <label class="form-check-label" for="other">
@@ -126,23 +139,23 @@
 
 <div class="row">
     {% if session.language == 'Arabic' %}
-        <div class="col text-start">
+        <div class="col-6 d-flex justify-content-start">
             <button type="submit" class="btn btn-primary">
                 ←التالي 
             </button>
         </div>
-        <div class="col text-end">
+        <div class="col-6 d-flex justify-content-end">
             <a href="{{ url_for('satisfaction') }}" class="btn btn-outline-secondary">
                 السابق→
             </a>
         </div>
     {% else %}
-        <div class="col text-start">
+        <div class="col-6 d-flex justify-content-start">
             <a href="{{ url_for('satisfaction') }}" class="btn btn-outline-secondary">
                 ← Previous
             </a>
         </div>
-        <div class="col text-end">
+        <div class="col-6 d-flex justify-content-end">
             <button type="submit" class="btn btn-primary">
                 Next →
             </button>
