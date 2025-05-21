@@ -8,29 +8,30 @@
     {% endif %}
 </h2>
 
-<form method="POST">
-    <div class="form-check">
+<div class="d-flex justify-content-center">
+    <form method="POST" class="text-center" style="width: 100%; max-width: 500px;">
+        <div class="option-box">
         <input class="form-check-input" type="checkbox" name="staff_reasons" value="Staff was not available to assist" id="s1"
         {% if "Staff was not available to assist" in staff_reasons %}checked{% endif %}>
         <label class="form-check-label" for="s1">
             {% if session.language == 'Arabic' %} لم يكن الموظفون متاحين للمساعدة {% else %} Staff was not available to assist {% endif %}
         </label>
     </div>
-    <div class="form-check">
+    <div class="option-box">
         <input class="form-check-input" type="checkbox" name="staff_reasons" value="Staff was not willing to help" id="s2"
         {% if "Staff was not willing to help" in staff_reasons %}checked{% endif %}>
         <label class="form-check-label" for="s2">
             {% if session.language == 'Arabic' %} لم يكن الموظفون على استعداد للمساعدة {% else %} Staff was not willing to help {% endif %}
         </label>
     </div>
-    <div class="form-check">
+    <div class="option-box">
         <input class="form-check-input" type="checkbox" name="staff_reasons" value="Staff did not understand my requirements" id="s3"
         {% if "Staff did not understand my requirements" in staff_reasons %}checked{% endif %}>
         <label class="form-check-label" for="s3">
             {% if session.language == 'Arabic' %} لم يفهم الموظفون متطلباتي {% else %} Staff did not understand my requirements {% endif %}
         </label>
     </div>
-    <div class="form-check">
+    <div class="option-box">
         <input class="form-check-input" type="checkbox" name="staff_reasons" value="Staff was not welcoming and approachable" id="s4"
         {% if "Staff was not welcoming and approachable" in staff_reasons %}checked{% endif %}>
         <label class="form-check-label" for="s4">
@@ -40,29 +41,30 @@
     <br>
     <div class="row">
         {% if session.language == 'Arabic' %}
-            <div class="col text-start">
+            <div class="col-6 d-flex justify-content-start">
                 <button type="submit" class="btn btn-primary">
-                    ← التالي
+                    ←التالي 
                 </button>
             </div>
-            <div class="col text-end">
+            <div class="col-6 d-flex justify-content-end">
                 <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
-                    السابق → 
+                    السابق→
                 </a>
             </div>
         {% else %}
-            <div class="col text-start">
+            <div class="col-6 d-flex justify-content-start">
                 <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-outline-secondary">
                     ← Previous
                 </a>
             </div>
-            <div class="col text-end">
+            <div class="col-6 d-flex justify-content-end">
                 <button type="submit" class="btn btn-primary">
-                    Next → 
+                    Next →
                 </button>
             </div>
         {% endif %}
     </div>
-</form>
-
-{% endblock %}
+    
+    </form>
+    {% endblock %}
+    
