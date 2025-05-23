@@ -122,3 +122,68 @@ def save_form_data(form_data):
         print(f"[ERROR] save_form_data failed: {str(e)}")
         print(traceback.format_exc())
         return False, None, False, "Error saving form data"
+def resend_gift_code_sms(phone_number):
+    """Resend the previously sent gift code via SMS if already assigned, else assign and send a new one."""
+    try:
+        session = get_db_session()
+        if not session:
+            return False, "DB connection error"
+
+        phone_number = phone_number.strip()
+        if not phone_number:
+            return False, "Missing phone number"
+
+        # Check if feedback entry exists
+        feedback = session.query(Feedback).filter_by(phone=phone_number).order_by(Feedback.timestamp.desc()).first()
+        if not feedback:
+            session.close()
+            return False, "No feedback found for this number"
+
+        # Check if gift code already assigned to this phone
+        gift_code = session.query(GiftCode).filter_by(
+            store_id=feedback.store_id,
+            isdelete=True,
+            isvalid=True,
+            issent=True,
+            smsstatus=True
+        ).order_by(GiftCode.timestamp_.desc()).first()
+
+        if gift_code:
+            # Resend existing gift code
+            success, message = send_gift_code_sms(phone_number, gift_code.code)
+            session.close()
+            return success, message
+        else:
+            # Assign a new gift code
+            new_code = session.query(GiftCode).filter(
+                GiftCode.isdelete.is_(False),
+                GiftCode.isvalid.is_(False),
+                GiftCode.issent.is_(False),
+                GiftCode.smsstatus.is_(False)
+            ).first()
+
+            if not new_code:
+                session.close()
+                return False, "No available gift codes"
+
+            success, message = send_gift_code_sms(phone_number, new_code.code)
+
+            if success:
+                new_code.isdelete = True
+                new_code.isvalid = True
+                new_code.issent = True
+                new_code.smsstatus = True
+                new_code.timestamp_ = datetime.now()
+                new_code.store_id = feedback.store_id
+                session.commit()
+
+                session.close()
+                return True, "Gift code resent successfully"
+            else:
+                session.close()
+                return False, f"SMS sending failed: {message}"
+
+    except Exception as e:
+        print(f"[ERROR] resend_gift_code_sms failed: {str(e)}")
+        print(traceback.format_exc())
+        return False, "Internal error while resending gift code"
