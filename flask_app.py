@@ -30,10 +30,10 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 # Required for session management
 
 # SMS Service Credentials
-SMS_API_URL = os.environ.get("SMS_API_URL")
+'''SMS_API_URL = os.environ.get("SMS_API_URL")
 SMS_USERNAME = os.environ.get("SMS_USERNAME")
 SMS_PASSWORD = os.environ.get("SMS_PASSWORD")
-SMS_SENDER = os.environ.get("SMS_SENDER")
+SMS_SENDER = os.environ.get("SMS_SENDER")'''
 
 # Initialize database tables
 init_database_tables()
@@ -48,7 +48,8 @@ def generate_otp():
 
 def send_sms_otp(phone_number, otp_code):
     """Send OTP via SMS using the specified API"""
-    message = f"Your Ajmal Feedback Form verification code is: {otp_code}"
+    print(f"[DEBUG] OTP for {phone_number}: {otp_code}")
+    ''' message = f"Your Ajmal Feedback Form verification code is: {otp_code}"
     url = f"{SMS_API_URL}/SendSMS/SingleSMS/?Username={SMS_USERNAME}&Password={SMS_PASSWORD}"
     payload = {
         "Message": message,
@@ -60,8 +61,8 @@ def send_sms_otp(phone_number, otp_code):
         return response.status_code == 200
     except Exception as e:
         print(f"Error sending SMS: {str(e)}")
-        return False
-
+        return False'''
+    return True
 def format_uae_number(phone_number):
     """Validate and format UAE phone number"""
     phone_number = ''.join(c for c in phone_number if c.isdigit() or c == '+')
@@ -410,21 +411,26 @@ def verify_phone():
         else:
             flash('Invalid phone number format. Please enter a valid UAE number.', 'error')
     return render_template('verify_phone.html')
- 
+
 @app.route('/enter-otp', methods=['GET', 'POST'])
 def enter_otp():
     if request.method == 'POST':
         if request.form.get('otp') == session.get('otp_code'):
             session['otp_verified'] = True
-            return redirect(url_for('thank_you'))  # 🚨 changed from 'language_selection'
+            return redirect(url_for('thank_you'))
         else:
             flash('Invalid OTP. Please try again.', 'error')
-    return render_template('enter_otp.html')
+
+    # 👇 Pass OTP to template ONLY FOR TESTING
+    otp_code = session.get('otp_code')  # get current OTP from session
+    DEBUG_MODE = True  # in config
+    return render_template('enter_otp.html', otp=otp_code if DEBUG_MODE else None)
+
 
 @app.route('/start-over')
 def start_over():
     session.clear()
-    return redirect(url_for('thank-you'))  # or your actual starting route
+    return redirect(url_for('language_selection'))  # or your actual starting route
 
 @app.route('/resend-otp', methods=['POST'])
 def resend_otp():
