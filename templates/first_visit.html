@@ -15,66 +15,71 @@
     </div>
 </div>
 
-<h2 class="text-center mb-4">
-    {% if session.language == 'Arabic' %}
-        هل هذه زيارتك الأولى لمتجر أجمل؟
-    {% else %}
-        Is this your first visit to an Ajmal Store?
-    {% endif %} 
-</h2>
+<div class="text-center mb-4">
+    <label class="language-label">
+        <strong>
+            {% if session.language == 'Arabic' %}
+                هل هذه زيارتك الأولى لمتجر أجمل؟
+            {% else %}
+                Is this your first visit to an Ajmal Store?
+            {% endif %}
+        </strong>
+    </label>
+</div>
 
 <!-- Centering form wrapper -->
-<div class="d-flex justify-content-center">
-    <form method="POST" class="text-center" style="width: 100%; max-width: 500px;">
+<!-- Full-width form -->
+<form method="POST" class="text-center container" style="max-width: 100%;">
 
-        <div class="mb-3">
-            <div class="p-3 rounded d-flex align-items-center justify-content-start"
-                style="border: none; background-color: #d6d6d6; width: 100%; height: 60px;">
-                <input class="form-check-input me-2" type="radio" name="first_visit" id="yes" value="Yes"
-                    {% if previous_first_visit == 'Yes' %}checked{% endif %}>
-                <label class="form-check-label mb-0" for="yes">
-                    {% if session.language == 'Arabic' %}نعم{% else %}Yes{% endif %}
-                </label>
+    <div class="mb-3 d-flex justify-content-center">
+        <div class="p-3 d-flex align-items-center justify-content-start"
+            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+            <input class="form-check-input me-2" type="radio" name="first_visit" id="yes" value="Yes"
+                {% if previous_first_visit == 'Yes' %}checked{% endif %}>
+            <label class="form-check-label mb-0" for="yes" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+                {% if session.language == 'Arabic' %}نعم{% else %}Yes{% endif %}
+            </label>
+        </div>
+    </div>
+
+    <div class="mb-3 d-flex justify-content-center">
+        <div class="p-3 d-flex align-items-center justify-content-start"
+            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+            <input class="form-check-input me-2" type="radio" name="first_visit" id="no" value="No"
+                {% if previous_first_visit == 'No' %}checked{% endif %}>
+            <label class="form-check-label mb-0" for="no" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+                {% if session.language == 'Arabic' %}لا{% else %}No{% endif %}
+            </label>
+        </div>
+    </div>
+
+    <!-- Full-width row for buttons -->
+    <div class="row">
+        {% if session.language == 'Arabic' %}
+            <div class="col text-start">
+                <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                    < التالي
+                </button>
             </div>
-        </div>
-
-        <div class="mb-3">
-            <div class="p-3 rounded d-flex align-items-center justify-content-start"
-                style="border: none; background-color: #d6d6d6; width: 100%; height: 60px;">
-                <input class="form-check-input me-2" type="radio" name="first_visit" id="no" value="No"
-                    {% if previous_first_visit == 'No' %}checked{% endif %}>
-                <label class="form-check-label mb-0" for="no">
-                    {% if session.language == 'Arabic' %}لا{% else %}No{% endif %}
-                </label>
+            <div class="col text-end">
+                <a href="{{ url_for('nps') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                    السابق >
+                </a>
             </div>
-        </div>
+        {% else %}
+            <div class="col text-start">
+                <a href="{{ url_for('nps') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                    < Previous
+                </a>
+            </div>
+            <div class="col text-end">
+                <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                    Next >
+                </button>
+            </div>
+        {% endif %}
+    </div>
+</form>
 
-        <div class="row ">
-            {% if session.language == 'Arabic' %}
-                <div class="col text-start">
-                    <button type="submit" class="btn btn-primary">
-                        ←التالي 
-                    </button>
-                </div>
-                <div class="col text-end">
-                    <a href="{{ url_for('intro') }}" class="btn btn-outline-secondary">
-                        السابق→
-                    </a>
-                </div>
-            {% else %}
-                <div class="col text-start">
-                    <a href="{{ url_for('intro') }}" class="btn btn-outline-secondary">
-                        ← Previous
-                    </a>
-                </div>
-                <div class="col text-end">
-                    <button type="submit" class="btn btn-primary">
-                        Next →
-                    </button>
-                </div>
-            {% endif %}
-        </div>
-
-    </form>
-</div>
+        
 {% endblock %}
