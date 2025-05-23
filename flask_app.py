@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from datetime import datetime
 import os
 import re
-from database.operations import save_form_data, phone_occurrence_count
+from database.operations import save_form_data, phone_occurrence_count, resend_gift_code_sms
 from database.connection import init_database_tables
 import random
 import string
@@ -80,7 +80,6 @@ def format_uae_number(phone_number):
 
 
 @app.route('/')
-
 def home():
     # Only update store_id if provided; don't reset session or OTP status
     store_id = request.args.get('store_id')
@@ -122,7 +121,7 @@ def index(store_url_id):
 
 @app.route('/language', methods=['GET', 'POST'])
 def language_selection():
-    user_ip = request.headers.get('X-Forwarded-For', request.remote_addr)
+    user_ip = request.headers.get('X-Forwarded-For', request.remote_addr)# logging in ip address
     logger.info(f"User IP: {user_ip}")
     if request.method == 'POST':
         selected_language = request.form.get('language')
@@ -426,6 +425,29 @@ def enter_otp():
 def start_over():
     session.clear()
     return redirect(url_for('thank-you'))  # or your actual starting route
+
+@app.route('/resend-otp', methods=['POST'])
+def resend_otp():
+    phone = session.get('form_data', {}).get('phone')
+    if phone:
+        otp = generate_otp()
+        session['otp_code'] = otp
+        
+        otp_sent = send_sms_otp(phone, otp)
+        gift_code_sent, gift_code_msg = resend_gift_code_sms(phone)
+
+        if otp_sent or gift_code_sent:
+            session['otp_sent'] = True
+            flash('OTP has been resent to your phone.', 'info')
+        else:
+            flash('Failed to resend OTP or gift code. Please try again.', 'error')
+    else:
+        flash('Phone number missing. Please go back and enter your phone number.', 'error')
+        return redirect(url_for('verify_phone'))
+
+    return redirect(url_for('enter_otp'))
+
+
 
 
 if __name__ == '__main__':
