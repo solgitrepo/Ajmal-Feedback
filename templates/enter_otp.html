@@ -42,6 +42,11 @@
     </strong>
 </label>
 </div>
+{% if otp %}
+<div class="alert alert-warning text-center" style="font-size: 1.1rem;">
+    <strong>OTP (for testing): {{ otp }}</strong>
+</div>
+{% endif %}
 
 
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -53,35 +58,32 @@
         </div>
         {% endfor %}
     {% endif %}
-    {% endwith %}
+{% endwith %}
 
-<form method="POST" class="text-center">
-    <div class="mb-3 text-start">
-        <label for="name" class="form-label small">
+    <form method="POST" class="text-center">
+        <div class="mb-3 text-start">
+            <label for="name" class="form-label small">
                 OTP <span style="color: red;">*</span>
-        </label>
-        <input type="text" class="form-control text-right" name="otp"
-            placeholder="Enter OTP "
-            required maxlength="6" pattern="[0-9]{6}">
-    </div>
+            </label>
+            <input type="text" class="form-control text-right" name="otp"
+            placeholder="Enter OTP" required maxlength="6" pattern="[0-9]{6}">
+        </div>
     
-    <div class="text-start mt-3 ps-2">
-        <span id="timer" class="text-muted" style="font-weight: 500;">
-            Resend OTP in: 01:00
-        </span>
-        <a href="{{ url_for('resend_otp') }}" id="resend-link" style="display: none; font-weight: 500;">
-            {% if session.language == 'Arabic' %}
-                إعادة إرسال رمز التحقق
-            {% else %}
-                Resend OTP
-            {% endif %}
-        </a>
-    </div>
     
+        <div class="text-start mt-3 ps-2">
+            <span id="timer" class="text-muted" style="font-weight: 500;">
+                {% if session.language == 'Arabic' %}
+                    إعادة الإرسال خلال: 01:00
+                {% else %}
+                    Resend OTP in: 01:00
+                {% endif %}
+            </span>
+        </div>
+        
     <script>
         let timeLeft = 60;
         const timerElement = document.getElementById("timer");
-        const resendLink = document.getElementById("resend-link");
+        const resendContainer = document.getElementById("resend-container");
     
         const countdown = setInterval(() => {
             timeLeft--;
@@ -98,11 +100,10 @@
             if (timeLeft <= 0) {
                 clearInterval(countdown);
                 timerElement.style.display = "none";
-                resendLink.style.display = "inline";
+                resendContainer.style.display = "block";
             }
         }, 1000);
     </script>
-    
     
     <div class="col text-center">
         <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 170px; font-size: 14px;">
@@ -110,5 +111,16 @@
         </button>
     </div>
 </form>
+<!-- Resend OTP Form (separate form outside main POST) -->
+<form method="POST" action="{{ url_for('resend_otp') }}" id="resend-container" style="display: none;" class="text-center mt-2">
+    <button type="submit" class="btn btn-link p-0" style="font-weight: 500; text-decoration: none;">
+        {% if session.language == 'Arabic' %}
+            إعادة إرسال رمز التحقق
+        {% else %}
+            Resend OTP
+        {% endif %}
+    </button>
+</form>
+
 
 {% endblock %}
