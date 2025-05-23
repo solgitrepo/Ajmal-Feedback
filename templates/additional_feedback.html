@@ -17,40 +17,50 @@
 
 
 {% if session.form_data['satisfaction'] == 'Yes' %}
-    <h2 class="text-center mb-4">
+<div class="text-center mb-4">
+    <label class="language-label">
+        <strong>
         {% if session['language'] == 'Arabic' %}
             هل ترغب في مشاركة أي ملاحظات إضافية تتعلق بتجربة تسوقك الأخيرة؟
         {% else %}
             Would you like to share any additional feedback related to your recent shopping experience?
         {% endif %}
-    </h2>
+    </strong>
+</label>
+</div>
 {% else %}
-    <h2 class="text-center mb-4">
+<div class="text-center mb-4">
+    <label class="language-label">
+        <strong>
         {% if session['language'] == 'Arabic' %}
             نأسف لإضاعة الفرصة لتزويدك بتجربة تسوق ممتعة لا تتردد في مشاركة أي تعليقات إضافية تتعلق بتجربتك الأخيرة
         {% else %}
             We regret having missed the opportunity in providing you with a pleasant shopping experience. Please feel free to share any additional feedback related to your recent experience.
         {% endif %}
-    </h2>
+    </strong>
+</label>
+</div>
 {% endif %}
 
 <div class="d-flex justify-content-center">
-    <form method="POST" class="text-center" style="width: 100%; max-width: 500px;">
-    <div class="mb-3">
-        <textarea class="form-control" name="additional_feedback" rows="4"
-        placeholder="{% if session.language == 'Arabic' %}اكتب ملاحظاتك هنا{% else %}Write your feedback here{% endif %}">{{ existing_feedback }}</textarea>
+    <form method="POST" class="text-center" style="width: 100%; max-width: 800px;">
+        <div class="mb-3 d-flex justify-content-center">
+            <textarea class="form-control" name="additional_feedback" rows="2"
+                style="width: 100%; max-width: 700px;">{{ existing_feedback }}</textarea>
+        </div>
+</div>
 
 
-    </div>
+
     <div class="row">
         {% if session.language == 'Arabic' %}
             <!-- Arabic: Next on the left, Previous on the right -->
-            <div class="col-6 d-flex justify-content-start">
-                <button type="submit" class="btn btn-primary">
-                    ←التالي 
+            <div class="col text-start">
+                <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                    < التالي 
                 </button>
             </div>
-            <div class="col-6 d-flex justify-content-end">
+            <div class="col text-end">
                 <a href="{% if session.form_data['satisfaction'] == 'No' %}
                             {% if session.form_data['dissatisfaction_reason'] == 'product' %}
                                 {{ url_for('product_feedback') }}
@@ -64,13 +74,13 @@
                         {% else %}
                             {{ url_for('satisfaction_reason') }}
                         {% endif %}"
-                class="btn btn-outline-secondary">
-                السابق→
+                        class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                السابق>
                 </a>
             </div>
         {% else %}
             <!-- English: Previous on the left, Next on the right -->
-            <div class="col-6 d-flex justify-content-start">
+            <div class="col text-start">
                 <a href="{% if session.form_data['satisfaction'] == 'No' %}
                             {% if session.form_data['dissatisfaction_reason'] == 'product' %}
                                 {{ url_for('product_feedback') }}
@@ -84,19 +94,17 @@
                         {% else %}
                             {{ url_for('satisfaction_reason') }}
                         {% endif %}"
-                class="btn btn-outline-secondary">
-                    ← Previous
+                        class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                    < Previous
                 </a>
             </div>
-            <div class="col-6 d-flex justify-content-end">
-                <button type="submit" class="btn btn-primary">
-                    Next →
+            <div class="col text-end">
+                <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                    Next >
                 </button>
             </div>
         {% endif %}
     </div>
-    
-</div>
     
     
 </form>    
