@@ -4,7 +4,7 @@
 <div class="progress" style="height: 12px; background-color: #f0f1f5; border-radius: 10px;">
     <div class="progress-bar progress-bar-striped"
         role="progressbar"
-        style="width: 37.5%; background-color: #3ecf8e; border-radius: 10px;
+        style="width: 15%; background-color: #3ecf8e; border-radius: 10px;
                 background-image: repeating-linear-gradient(
                 45deg,
                 rgba(255, 255, 255, 0.2),
@@ -16,20 +16,26 @@
     </div>
 </div>
 
-<div class="d-flex justify-content-center">
-    <form method="POST" class="text-center" style="width: 100%; max-width: 500px;">
-        {% if session.form_data.satisfaction == 'Yes' %}
-            <h2 class="text-center mb-4">
+<form method="POST" class="text-center container" style="max-width: 100%;">
+    {% if session.form_data.get('satisfaction') == 'Yes' %}
+    <div class="text-center mb-4">
+        <label class="language-label">
+            <strong>
                 {% if session.language == 'Arabic' %}
-                    أي من الجوانب التالية من تجربتك وجدتها أكثر إرضاءً؟
+                    ما هو السبب الرئيسي لرضاك عن زيارتك؟
                 {% else %}
-                    Which of the following aspects of your experience you found most satisfactory?
+                    What was the main reason for your satisfaction?
                 {% endif %}
-    </h2>
-    <div class="option-box">
-            <input class="form-check-input" type="radio" name="satisfaction_reason" id="found_exactly" value="I found exactly what I was looking for" 
-            {% if session.form_data.get('satisfaction_reason') == 'I found exactly what I was looking for' %}checked{% endif %} required>
-            <label class="form-check-label" for="found_exactly">
+            </strong>
+        </label>
+    </div>
+    
+    <div class="mb-3 d-flex justify-content-center">
+        <div class="p-3 d-flex align-items-center justify-content-start"
+            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+            <input class="form-check-input me-2" type="radio" name="satisfaction_reason" id="found_exactly" value="I found exactly what I was looking for"
+                {% if session.form_data.get('satisfaction_reason') == 'I found exactly what I was looking for' %}checked{% endif %} required>
+            <label class="form-check-label mb-0" for="found_exactly" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
                 {% if session.language == 'Arabic' %}
                     وجدت بالضبط ما كنت أبحث عنه
                 {% else %}
@@ -37,10 +43,14 @@
                 {% endif %}
             </label>
         </div>
-        <div class="option-box">
-            <input class="form-check-input" type="radio" name="satisfaction_reason" id="happy_price" value="I was happy with the price and promotions"
-            {% if session.form_data.get('satisfaction_reason') == 'I was happy with the price and promotions' %}checked{% endif %} required>
-            <label class="form-check-label" for="happy_price">
+    </div>
+    
+    <div class="mb-3 d-flex justify-content-center">
+        <div class="p-3 d-flex align-items-center justify-content-start"
+            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+            <input class="form-check-input me-2" type="radio" name="satisfaction_reason" id="happy_price" value="I was happy with the price and promotions"
+                {% if session.form_data.get('satisfaction_reason') == 'I was happy with the price and promotions' %}checked{% endif %} required>
+            <label class="form-check-label mb-0" for="happy_price" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
                 {% if session.language == 'Arabic' %}
                     كنت سعيداً بالسعر والعروض الترويجية
                 {% else %}
@@ -48,21 +58,29 @@
                 {% endif %}
             </label>
         </div>
-        <div class="option-box">
-            <input class="form-check-input" type="radio" name="satisfaction_reason" id="staff_helpful" value="The store staff were very helpful and provided good customer service"
-            {% if session.form_data.get('satisfaction_reason') == 'The store staff were very helpful and provided good customer service' %}checked{% endif %} required>
-            <label class="form-check-label" for="staff_helpful">
+    </div>
+    
+    <div class="mb-3 d-flex justify-content-center">
+        <div class="p-3 d-flex align-items-center justify-content-start"
+            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+            <input class="form-check-input me-2" type="radio" name="satisfaction_reason" id="staff_helpful" value="The store staff were very helpful and provided good customer service"
+                {% if session.form_data.get('satisfaction_reason') == 'The store staff were very helpful and provided good customer service' %}checked{% endif %} required>
+            <label class="form-check-label mb-0" for="staff_helpful" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
                 {% if session.language == 'Arabic' %}
-                    كنت سعيداً بمستوى خدمة العملاء       
+                    كنت سعيداً بمستوى خدمة العملاء
                 {% else %}
                     The store staff were very helpful and provided good customer service
                 {% endif %}
             </label>
         </div>
-        <div class="option-box">
-            <input class="form-check-input" type="radio" name="satisfaction_reason" id="all_above" value="All of the above"
-            {% if session.form_data.get('satisfaction_reason') == 'All of the above' %}checked{% endif %} required>
-            <label class="form-check-label" for="all_above">
+    </div>
+    
+    <div class="mb-3 d-flex justify-content-center">
+        <div class="p-3 d-flex align-items-center justify-content-start"
+            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+            <input class="form-check-input me-2" type="radio" name="satisfaction_reason" id="all_above" value="All of the above"
+                {% if session.form_data.get('satisfaction_reason') == 'All of the above' %}checked{% endif %} required>
+            <label class="form-check-label mb-0" for="all_above" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
                 {% if session.language == 'Arabic' %}
                     كل ما سبق
                 {% else %}
@@ -70,10 +88,14 @@
                 {% endif %}
             </label>
         </div>
-        <div class="option-box">
-            <input class="form-check-input" type="radio" name="satisfaction_reason" id="other" value="Other"
-            {% if session.form_data.get('satisfaction_reason') == 'Other' %}checked{% endif %} required>
-            <label class="form-check-label" for="other">
+    </div>
+    
+    <div class="mb-3 d-flex justify-content-center">
+        <div class="p-3 d-flex align-items-center justify-content-start"
+            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+            <input class="form-check-input me-2" type="radio" name="satisfaction_reason" id="other" value="Other"
+                {% if session.form_data.get('satisfaction_reason') == 'Other' %}checked{% endif %} required>
+            <label class="form-check-label mb-0" for="other" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
                 {% if session.language == 'Arabic' %}
                     أخرى
                 {% else %}
@@ -81,19 +103,28 @@
                 {% endif %}
             </label>
         </div>
-{% else %}
-    <h2 class="text-center mb-4">
-        {% if session.language == 'Arabic' %}
-            أي من الجوانب التالية من تجربتك وجدتها غير مرضية؟
-        {% else %}
-            Which of the following aspects of your experience did you find unsatisfactory?
-        {% endif %}
-    </h2>
-
-        <div class="option-box">
-            <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="product" value="product" 
-            {% if session.form_data.get('dissatisfaction_reason') == 'product' %}checked{% endif %} required>
-            <label class="form-check-label" for="product">
+    </div>
+    
+    {% else %}
+    
+    <div class="text-center mb-4">
+        <label class="language-label">
+            <strong>
+                {% if session.language == 'Arabic' %}
+                    أي من الجوانب التالية من تجربتك وجدتها غير مرضية؟
+                {% else %}
+                    Which of the following aspects of your experience did you find unsatisfactory?
+                {% endif %}
+            </strong>
+        </label>
+    </div>
+    
+    <div class="mb-3 d-flex justify-content-center">
+        <div class="p-3 d-flex align-items-center justify-content-start"
+            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+            <input class="form-check-input me-2" type="radio" name="dissatisfaction_reason" id="product" value="product"
+                {% if session.form_data.get('dissatisfaction_reason') == 'product' %}checked{% endif %} required>
+            <label class="form-check-label mb-0" for="product" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
                 {% if session.language == 'Arabic' %}
                     المنتج
                 {% else %}
@@ -101,10 +132,14 @@
                 {% endif %}
             </label>
         </div>
-        <div class="option-box">
-            <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="staff" value="staff"
-            {% if session.form_data.get('dissatisfaction_reason') == 'staff' %}checked{% endif %}>
-            <label class="form-check-label" for="staff">
+    </div>
+    
+    <div class="mb-3 d-flex justify-content-center">
+        <div class="p-3 d-flex align-items-center justify-content-start"
+            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+            <input class="form-check-input me-2" type="radio" name="dissatisfaction_reason" id="staff" value="staff"
+                {% if session.form_data.get('dissatisfaction_reason') == 'staff' %}checked{% endif %}>
+            <label class="form-check-label mb-0" for="staff" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
                 {% if session.language == 'Arabic' %}
                     الموظفين
                 {% else %}
@@ -112,10 +147,14 @@
                 {% endif %}
             </label>
         </div>
-        <div class="option-box">
-            <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="ambience" value="ambience"
-            {% if session.form_data.get('dissatisfaction_reason') == 'ambience' %}checked{% endif %}>
-            <label class="form-check-label" for="ambience">
+    </div>
+    
+    <div class="mb-3 d-flex justify-content-center">
+        <div class="p-3 d-flex align-items-center justify-content-start"
+            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+            <input class="form-check-input me-2" type="radio" name="dissatisfaction_reason" id="ambience" value="ambience"
+                {% if session.form_data.get('dissatisfaction_reason') == 'ambience' %}checked{% endif %}>
+            <label class="form-check-label mb-0" for="ambience" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
                 {% if session.language == 'Arabic' %}
                     الأجواء
                 {% else %}
@@ -123,10 +162,14 @@
                 {% endif %}
             </label>
         </div>
-        <div class="option-box">
-            <input class="form-check-input" type="radio" name="dissatisfaction_reason" id="other" value="other"
-            {% if session.form_data.get('dissatisfaction_reason') == 'other' %}checked{% endif %}>
-            <label class="form-check-label" for="other">
+    </div>
+    
+    <div class="mb-3 d-flex justify-content-center">
+        <div class="p-3 d-flex align-items-center justify-content-start"
+            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+            <input class="form-check-input me-2" type="radio" name="dissatisfaction_reason" id="other_dissatisfaction" value="other"
+                {% if session.form_data.get('dissatisfaction_reason') == 'other' %}checked{% endif %}>
+            <label class="form-check-label mb-0" for="other_dissatisfaction" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
                 {% if session.language == 'Arabic' %}
                     أخرى
                 {% else %}
@@ -134,34 +177,36 @@
                 {% endif %}
             </label>
         </div>
+    </div>
+    {% endif %}
     
-{% endif %}
-
+ <!-- Full-width row for buttons -->
 <div class="row">
     {% if session.language == 'Arabic' %}
-        <div class="col-6 d-flex justify-content-start">
-            <button type="submit" class="btn btn-primary">
-                ←التالي 
+        <div class="col text-start">
+            <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                < التالي
             </button>
         </div>
-        <div class="col-6 d-flex justify-content-end">
-            <a href="{{ url_for('satisfaction') }}" class="btn btn-outline-secondary">
-                السابق→
+        <div class="col text-end">
+            <a href="{{ url_for('satisfaction') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                السابق >
             </a>
         </div>
     {% else %}
-        <div class="col-6 d-flex justify-content-start">
-            <a href="{{ url_for('satisfaction') }}" class="btn btn-outline-secondary">
-                ← Previous
+        <div class="col text-start">
+            <a href="{{ url_for('satisfaction') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                < Previous
             </a>
         </div>
-        <div class="col-6 d-flex justify-content-end">
-            <button type="submit" class="btn btn-primary">
-                Next →
+        <div class="col text-end">
+            <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                Next >
             </button>
         </div>
     {% endif %}
 </div>
-
 </form>
+
+    
 {% endblock %}
