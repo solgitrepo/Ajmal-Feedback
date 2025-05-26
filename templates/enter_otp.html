@@ -80,30 +80,6 @@
             </span>
         </div>
         
-    <script>
-        let timeLeft = 60;
-        const timerElement = document.getElementById("timer");
-        const resendContainer = document.getElementById("resend-container");
-    
-        const countdown = setInterval(() => {
-            timeLeft--;
-    
-            const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-            const seconds = String(timeLeft % 60).padStart(2, '0');
-    
-            {% if session.language == 'Arabic' %}
-            timerElement.textContent = `إعادة الإرسال خلال: ${minutes}:${seconds}`;
-            {% else %}
-            timerElement.textContent = `Resend OTP in: ${minutes}:${seconds}`;
-            {% endif %}
-    
-            if (timeLeft <= 0) {
-                clearInterval(countdown);
-                timerElement.style.display = "none";
-                resendContainer.style.display = "block";
-            }
-        }, 1000);
-    </script>
     
     <div class="col text-center">
         <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 170px; font-size: 14px;">
@@ -112,7 +88,7 @@
     </div>
 </form>
 <!-- Resend OTP Form (separate form outside main POST) -->
-<form method="POST" action="{{ url_for('resend_otp') }}" id="resend-container" style="display: none;" class="text-center mt-2">
+<form method="POST" action="{{ url_for('enter_otp') }}" id="resend-container" style="display: none;" class="text-center mt-2">
     <button type="submit" class="btn btn-link p-0" style="font-weight: 500; text-decoration: none;">
         {% if session.language == 'Arabic' %}
             إعادة إرسال رمز التحقق
@@ -122,5 +98,28 @@
     </button>
 </form>
 
+<script>
+    let timeLeft = 60;
+    const timerElement = document.getElementById("timer");
+    const resendContainer = document.getElementById("resend-container");
 
+    const countdown = setInterval(() => {
+        timeLeft--;
+
+        const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+        const seconds = String(timeLeft % 60).padStart(2, '0');
+
+        {% if session.language == 'Arabic' %}
+        timerElement.textContent = `إعادة الإرسال خلال: ${minutes}:${seconds}`;
+        {% else %}
+        timerElement.textContent = `Resend OTP in: ${minutes}:${seconds}`;
+        {% endif %}
+
+        if (timeLeft <= 0) {
+            clearInterval(countdown);
+            timerElement.style.display = "none";
+            resendContainer.style.display = "block";
+        }
+    }, 1000);
+</script>
 {% endblock %}
