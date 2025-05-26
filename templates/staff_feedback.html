@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-   
-<div class="progress mb-4" style="height: 12px; background-color: #f0f1f5; border-radius: 10px;">
+<form method="POST">
+<div class="progress" style="height: 12px; background-color: #f0f1f5; border-radius: 10px;">
     <div class="progress-bar progress-bar-striped" role="progressbar"
         style="width: 40%; background-color: #3ecf8e; border-radius: 10px;
                 background-image: repeating-linear-gradient(
@@ -17,110 +16,86 @@
     </div>
 </div>
 
-        <div class="text-center mb-4">
-            <label class="language-label">
-                <strong>
-                {% if session.language == 'Arabic' %}
-                    .يرجى اختيار أحد الأسباب المذكورة أدناه
-                {% else %}
-                    Please select one of the reasons listed below.
-                {% endif %}
-                </strong>
-            </label>
+<div class="text-center mb-4">
+    <label class="language-label">
+        <strong>
+    {% if session.language == 'Arabic' %}
+        .يرجى اختيار أحد الأسباب المذكورة أدناه
+    {% else %}
+        Please select one of the reasons listed below.
+    {% endif %}
+</strong>
+</label>
+</div>
+
+
+<div class="mb-3 d-flex justify-content-center">
+    <div class="p-3 d-flex align-items-center justify-content-start"
+        style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+        <input class="form-check-input me-2" type="radio" name="staff_reasons" value="Staff was not available to assist" id="s1"
+        {% if "Staff was not available to assist" in staff_reasons %}checked{% endif %}>
+        <label class="form-check-label mb-0" for="s1" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+            {% if session.language == 'Arabic' %} لم يكن الموظفون متاحين للمساعدة {% else %} Staff was not available to assist {% endif %}
+        </label>
+    </div>
+</div>
+<div class="mb-3 d-flex justify-content-center">
+    <div class="p-3 d-flex align-items-center justify-content-start"
+        style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+        <input class="form-check-input me-2" type="radio" name="staff_reasons" value="Staff was not willing to help" id="s2"
+        {% if "Staff was not willing to help" in staff_reasons %}checked{% endif %}>
+        <label class="form-check-label mb-0" for="s2" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+            {% if session.language == 'Arabic' %} لم يكن الموظفون على استعداد للمساعدة {% else %} Staff was not willing to help {% endif %}
+        </label>
+    </div>
+</div>
+<div class="mb-3 d-flex justify-content-center">
+    <div class="p-3 d-flex align-items-center justify-content-start"
+        style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+        <input class="form-check-input me-2" type="radio" name="staff_reasons" value="Staff did not understand my requirements" id="s3"
+        {% if "Staff did not understand my requirements" in staff_reasons %}checked{% endif %}>
+        <label class="form-check-label mb-0" for="s3" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+            {% if session.language == 'Arabic' %} لم يفهم الموظفون متطلباتي {% else %} Staff did not understand my requirements {% endif %}
+        </label>
+    </div>
+</div>
+<div class="mb-3 d-flex justify-content-center">
+    <div class="p-3 d-flex align-items-center justify-content-start"
+        style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+        <input class="form-check-input me-2" type="radio" name="staff_reasons" value="Staff was not welcoming and approachable" id="s4"
+        {% if "Staff was not welcoming and approachable" in staff_reasons %}checked{% endif %}>
+        <label class="form-check-label mb-0" for="s4" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+            {% if session.language == 'Arabic' %}لم يكن الموظفون مرحبين و ودودين {% else %} Staff was not welcoming and approachable {% endif %}
+        </label>
+    </div>
+</div>
+
+<div class="row">
+    {% if session.language == 'Arabic' %}
+        <div class="col text-start">
+            <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                < التالي
+            </button>
         </div>
-
-        <form method="POST" class="mx-auto" style="max-width: 600px;">
-            <div class="mb-3 d-flex justify-content-center">
-                <div class="p-3 d-flex align-items-center justify-content-start feedback-option"
-                    style="border: none; background-color: #d6d6d6; width: 100%; height: 40px; border-radius: 4px;">
-                    <input class="form-check-input me-2" type="radio" name="staff_reasons" value="Staff was not available to assist" id="s1"
-                    {% if "Staff was not available to assist" in staff_reasons %}checked{% endif %}>
-                    <label class="form-check-label mb-0" for="s1" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
-                        {% if session.language == 'Arabic' %} لم يكن الموظفون متاحين للمساعدة {% else %} Staff was not available to assist {% endif %}
-                    </label>
-                </div>
-            </div>
-            <div class="mb-3 d-flex justify-content-center">
-                <div class="p-3 d-flex align-items-center justify-content-start feedback-option"
-                    style="border: none; background-color: #d6d6d6; width: 100%; height: 40px; border-radius: 4px;">
-                    <input class="form-check-input me-2" type="radio" name="staff_reasons" value="Staff was not willing to help" id="s2"
-                    {% if "Staff was not willing to help" in staff_reasons %}checked{% endif %}>
-                    <label class="form-check-label mb-0" for="s2" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
-                        {% if session.language == 'Arabic' %} لم يكن الموظفون على استعداد للمساعدة {% else %} Staff was not willing to help {% endif %}
-                    </label>
-                </div>
-            </div>
-            <div class="mb-3 d-flex justify-content-center">
-                <div class="p-3 d-flex align-items-center justify-content-start feedback-option"
-                    style="border: none; background-color: #d6d6d6; width: 100%; height: 40px; border-radius: 4px;">
-                    <input class="form-check-input me-2" type="radio" name="staff_reasons" value="Staff did not understand my requirements" id="s3"
-                    {% if "Staff did not understand my requirements" in staff_reasons %}checked{% endif %}>
-                    <label class="form-check-label mb-0" for="s3" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
-                        {% if session.language == 'Arabic' %} لم يفهم الموظفون متطلباتي {% else %} Staff did not understand my requirements {% endif %}
-                    </label>
-                </div>
-            </div>
-            <div class="mb-3 d-flex justify-content-center">
-                <div class="p-3 d-flex align-items-center justify-content-start feedback-option"
-                    style="border: none; background-color: #d6d6d6; width: 100%; height: 40px; border-radius: 4px;">
-                    <input class="form-check-input me-2" type="radio" name="staff_reasons" value="Staff was not welcoming and approachable" id="s4"
-                    {% if "Staff was not welcoming and approachable" in staff_reasons %}checked{% endif %}>
-                    <label class="form-check-label mb-0" for="s4" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
-                        {% if session.language == 'Arabic' %}لم يكن الموظفون مرحبين و ودودين {% else %} Staff was not welcoming and approachable {% endif %}
-                    </label>
-                </div>
-            </div>
+        <div class="col text-end">
+            <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                السابق >
+            </a>
         </div>
-
-        <div class="row">
-            {% if session.language == 'Arabic' %}
-                <div class="col text-start">
-                    <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
-                        < التالي
-                    </button>
-                </div>
-                <div class="col text-end">
-                    <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
-                        السابق >
-                    </a>
-                </div>
-            {% else %}
-                <div class="col text-start">
-                    <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
-                        < Previous
-                    </a>
-                </div>
-                <div class="col text-end">
-                    <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
-                        Next >
-                    </button>
-                </div>
-            {% endif %}
+    {% else %}
+        <div class="col text-start">
+            <a href="{{ url_for('satisfaction_reason') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                < Previous
+            </a>
         </div>
-    </form>
+        <div class="col text-end">
+            <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                Next >
+            </button>
+        </div>
+    {% endif %}
+</div>
+</form>
 
-
-<style>
-    .container {
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-    }
-    .feedback-option {
-        transition: background-color 0.2s;
-    }
-    .feedback-option:hover {
-        background-color: #c4c4c4 !important;
-    }
-    .form-check-input {
-        margin-top: 0;
-    }
-    @media (max-width: 768px) {
-        .container {
-            padding: 10px;
-        }
-    }
-</style>
+    
 {% endblock %}
