@@ -25,19 +25,8 @@ print("Testing DB connection...")
 engine = init_connection()
 print("Engine:", engine)
 app = Flask(__name__)
-
-# Azure-specific configuration
-app.config.update(
-    SESSION_COOKIE_SECURE=True,
-    SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE='Lax',
-    PERMANENT_SESSION_LIFETIME=1800,  # 30 minutes
-    SESSION_REFRESH_EACH_REQUEST=True
-)
-
-# Use environment variable for secret key
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", os.urandom(24))
-
+#app.secret_key = os.urandom(24)
+app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 # Required for session management
 
 # SMS Service Credentials
@@ -87,49 +76,39 @@ def format_uae_number(phone_number):
         return '+971' + phone_number
     return None
 
-# Routes
-# Routes
+def handle_store_id(store_id):
+    """
+    Common handler to validate and set store_id in session.
+    """
+    # Optional: Validate UUID format
+    if store_id and re.match(r'^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$', store_id, re.IGNORECASE):
+        session['store_id'] = store_id
+        session['store_url_id'] = store_id
+    else:
+        session.pop('store_id', None)
+        session.pop('store_url_id', None)
 
+    # Initialize session keys if not already set
+    session.setdefault('form_data', {})
+    session.setdefault('otp_verified', False)
+
+    return redirect(url_for('language_selection'))
+# Routes
+# Routes
 
 @app.route('/')
 def home():
-    # Only update store_id if provided; don't reset session or OTP status
     store_id = request.args.get('store_id')
-    if store_id:
-        session['store_id'] = store_id  # Update only if present
+    return handle_store_id(store_id)
 
-    if 'form_data' not in session:
-        session['form_data'] = {}
-    #session.setdefault('otp_verified', False)  # Set only if not already set
-
-    return redirect(url_for('language_selection'))
 
 
 @app.route('/<store_url_id>')
 def index(store_url_id):
-    # Try to extract UUID from the URL slug
-    match = re.search(
-        r'([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$', 
-        store_url_id, 
-        re.IGNORECASE
-    )
-
-    # If match, store ID is extracted and saved
-    if match:
-        store_id = match.group(1)
-        session['store_id'] = store_id
-        session['store_url_id'] = store_url_id
-    else:
-        session.pop('store_id', None)
-        session.pop('store_url_id', None)
-    # Initialize session data
-    if 'form_data' not in session:
-        session['form_data'] = {}
-    if 'otp_verified' not in session:
-        session['otp_verified'] = False
-
-    return redirect(url_for('language_selection'))
-
+    # Try to extract UUID from the path
+    match = re.search(r'([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$', store_url_id, re.IGNORECASE)
+    store_id = match.group(1) if match else None
+    return handle_store_id(store_id)
 
 @app.route('/language', methods=['GET', 'POST'])
 def language_selection():
@@ -149,6 +128,7 @@ def language_selection():
 def intro():
     # Show thank you and gift info, and ask for mobile number if needed
     return render_template('intro.html')
+
 
 
 @app.route('/start_survey', methods=['POST'])
