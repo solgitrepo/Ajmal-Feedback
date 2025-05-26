@@ -25,8 +25,19 @@ print("Testing DB connection...")
 engine = init_connection()
 print("Engine:", engine)
 app = Flask(__name__)
-#app.secret_key = os.urandom(24)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY")
+
+# Azure-specific configuration
+app.config.update(
+    SESSION_COOKIE_SECURE=True,
+    SESSION_COOKIE_HTTPONLY=True,
+    SESSION_COOKIE_SAMESITE='Lax',
+    PERMANENT_SESSION_LIFETIME=1800,  # 30 minutes
+    SESSION_REFRESH_EACH_REQUEST=True
+)
+
+# Use environment variable for secret key
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", os.urandom(24))
+
 # Required for session management
 
 # SMS Service Credentials
@@ -240,25 +251,45 @@ def satisfaction_reason():
 @app.route("/product_feedback", methods=["GET", "POST"])
 def product_feedback():
     if request.method == "POST":
-        session.setdefault('form_data', {})
+        print("[DEBUG] Product Feedback POST Request")
+        print("[DEBUG] User Agent:", request.user_agent.string)
+        print("[DEBUG] Raw Form Data:", request.form)
+        print("[DEBUG] Request Headers:", dict(request.headers))
         
-        # Handle form data from any browser
+        # Ensure session is initialized
+        if 'form_data' not in session:
+            session['form_data'] = {}
+            session.modified = True
+        
+        # Handle form data from Chrome
         product_reasons = []
         if request.form.getlist("product_reasons"):
             product_reasons = request.form.getlist("product_reasons")
+            print("[DEBUG] Got product reasons from getlist:", product_reasons)
         elif request.form.get("product_reasons"):
             product_reasons = [request.form.get("product_reasons")]
+            print("[DEBUG] Got product reason from get:", product_reasons)
         
         # Ensure we have valid data
         if not product_reasons:
+            print("[DEBUG] No product reasons found in request")
             flash("Please select a reason", "error")
             return redirect(url_for("product_feedback"))
         
+        # Store in session with explicit modification
         session['form_data']['product_reasons'] = product_reasons
         session.modified = True
-        print("[DEBUG] Product feedback data:", session['form_data'])
+        print("[DEBUG] Updated session data:", session['form_data'])
+        
+        # Force session save
+        try:
+            session.save()
+        except Exception as e:
+            print(f"[ERROR] Failed to save session: {str(e)}")
+        
         return redirect(url_for("additional_feedback"))
     
+    # GET request handling
     language = session.get('form_data', {}).get('language', 'English')
     product_reasons = session.get('form_data', {}).get('product_reasons', []) 
     return render_template("product_feedback.html", language=language, product_reasons=product_reasons)
@@ -266,54 +297,94 @@ def product_feedback():
 
 @app.route("/staff_feedback", methods=["GET", "POST"])
 def staff_feedback():
-    session.setdefault('form_data', {})
-
     if request.method == "POST":
-        # Handle form data from any browser
+        print("[DEBUG] Staff Feedback POST Request")
+        print("[DEBUG] User Agent:", request.user_agent.string)
+        print("[DEBUG] Raw Form Data:", request.form)
+        print("[DEBUG] Request Headers:", dict(request.headers))
+        
+        # Ensure session is initialized
+        if 'form_data' not in session:
+            session['form_data'] = {}
+            session.modified = True
+
+        # Handle form data from Chrome
         staff_reasons = []
         if request.form.getlist("staff_reasons"):
             staff_reasons = request.form.getlist("staff_reasons")
+            print("[DEBUG] Got staff reasons from getlist:", staff_reasons)
         elif request.form.get("staff_reasons"):
             staff_reasons = [request.form.get("staff_reasons")]
+            print("[DEBUG] Got staff reason from get:", staff_reasons)
         
         # Ensure we have valid data
         if not staff_reasons:
+            print("[DEBUG] No staff reasons found in request")
             flash("Please select a reason", "error")
             return redirect(url_for("staff_feedback"))
         
+        # Store in session with explicit modification
         session['form_data']['staff_reasons'] = staff_reasons
         session.modified = True
-        print("[DEBUG] Staff feedback data:", session['form_data'])
+        print("[DEBUG] Updated session data:", session['form_data'])
+        
+        # Force session save
+        try:
+            session.save()
+        except Exception as e:
+            print(f"[ERROR] Failed to save session: {str(e)}")
+        
         return redirect(url_for("additional_feedback"))
 
-    language = session['form_data'].get('language', 'English')
-    staff_reasons = session['form_data'].get('staff_reasons', [])
+    # GET request handling
+    language = session.get('form_data', {}).get('language', 'English')
+    staff_reasons = session.get('form_data', {}).get('staff_reasons', [])
     return render_template("staff_feedback.html", language=language, staff_reasons=staff_reasons)
 
 @app.route("/ambience_feedback", methods=["GET", "POST"])
 def ambience_feedback():
-    session.setdefault('form_data', {})
-
     if request.method == "POST":
-        # Handle form data from any browser
+        print("[DEBUG] Ambience Feedback POST Request")
+        print("[DEBUG] User Agent:", request.user_agent.string)
+        print("[DEBUG] Raw Form Data:", request.form)
+        print("[DEBUG] Request Headers:", dict(request.headers))
+        
+        # Ensure session is initialized
+        if 'form_data' not in session:
+            session['form_data'] = {}
+            session.modified = True
+
+        # Handle form data from Chrome
         ambience_reasons = []
         if request.form.getlist("ambience_reasons"):
             ambience_reasons = request.form.getlist("ambience_reasons")
+            print("[DEBUG] Got ambience reasons from getlist:", ambience_reasons)
         elif request.form.get("ambience_reasons"):
             ambience_reasons = [request.form.get("ambience_reasons")]
+            print("[DEBUG] Got ambience reason from get:", ambience_reasons)
         
         # Ensure we have valid data
         if not ambience_reasons:
+            print("[DEBUG] No ambience reasons found in request")
             flash("Please select a reason", "error")
             return redirect(url_for("ambience_feedback"))
         
+        # Store in session with explicit modification
         session['form_data']['ambience_reasons'] = ambience_reasons
         session.modified = True
-        print("[DEBUG] Ambience feedback data:", session['form_data'])
+        print("[DEBUG] Updated session data:", session['form_data'])
+        
+        # Force session save
+        try:
+            session.save()
+        except Exception as e:
+            print(f"[ERROR] Failed to save session: {str(e)}")
+        
         return redirect(url_for("additional_feedback"))
 
-    language = session['form_data'].get('language', 'English')
-    ambience_reasons = session['form_data'].get('ambience_reasons', [])
+    # GET request handling
+    language = session.get('form_data', {}).get('language', 'English')
+    ambience_reasons = session.get('form_data', {}).get('ambience_reasons', [])
     return render_template("ambience_feedback.html", language=language, ambience_reasons=ambience_reasons)
 
 
@@ -380,6 +451,9 @@ def contact_info():
 
 @app.route('/thank-you', methods=['GET'])
 def thank_you():
+    print("[DEBUG] Thank You Page Request")
+    print("[DEBUG] Session Data:", session.get('form_data', {}))
+    
     store_id = session.get('store_id')
     form_data = session.get('form_data', {})
     if not store_id:
@@ -388,10 +462,12 @@ def thank_you():
         phone = form_data.get('phone')
         
         if not phone:
+            print("[ERROR] Phone number missing in form data")
             flash("Phone number is missing.", "error")
             return redirect(url_for('verify_phone'))
 
         phone_count = phone_occurrence_count(phone)
+        print("[DEBUG] Phone count:", phone_count)
 
         session['form_data']['phone_count'] = phone_count
         session.modified = True
@@ -400,7 +476,9 @@ def thank_you():
         if store_id:
             form_data['store_id'] = store_id
 
+        print("[DEBUG] Saving form data:", form_data)
         success, gift_code, is_first_time, sms_message = save_form_data(form_data)
+        print("[DEBUG] Save result:", success, gift_code, is_first_time, sms_message)
 
         if success:
             return render_template(
@@ -410,6 +488,7 @@ def thank_you():
                 sms_message=sms_message
             )
         else:
+            print("[ERROR] Failed to save form data")
             return "There was an error saving your response.", 500
 
     session.clear()
@@ -476,10 +555,17 @@ def resend_otp():
 
     return redirect(url_for('enter_otp'))
 
-
-
+# Add Azure-specific headers
+@app.after_request
+def add_header(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+    return response
 
 if __name__ == '__main__':
-    #threading.Thread(target=open_browser).start()
-    app.run(debug=True)
+    # Azure-specific port configuration
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
    
