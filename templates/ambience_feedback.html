@@ -2,8 +2,9 @@
 
 {% block content %}
 <div class="container">
-    <form method="POST" class="mx-auto" style="max-width: 600px;" accept-charset="UTF-8">
+    <form method="POST" class="mx-auto" style="max-width: 600px;" accept-charset="UTF-8" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="form_type" value="ambience_feedback">
         <div class="progress mb-4" style="height: 12px; background-color: #f0f1f5; border-radius: 10px;">
             <div class="progress-bar progress-bar-striped" role="progressbar"
                 style="width: 37.5%; background-color: #3ecf8e; border-radius: 10px;
@@ -135,6 +136,7 @@
     .feedback-option {
         transition: background-color 0.2s;
         cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
     }
     .feedback-option:hover {
         background-color: #c4c4c4 !important;
@@ -142,10 +144,16 @@
     .form-check-input {
         margin-top: 0;
         cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
     }
     .form-check-label {
         cursor: pointer;
         user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
     }
     @media (max-width: 768px) {
         .container {
