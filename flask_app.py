@@ -103,12 +103,12 @@ def home():
 
 
 
-@app.route('/<store_url_id>')
+'''@app.route('/<store_url_id>')
 def index(store_url_id):
     # Try to extract UUID from the path
     match = re.search(r'([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$', store_url_id, re.IGNORECASE)
     store_id = match.group(1) if match else None
-    return handle_store_id(store_id)
+    return handle_store_id(store_id)'''
 
 @app.route('/language', methods=['GET', 'POST'])
 def language_selection():
