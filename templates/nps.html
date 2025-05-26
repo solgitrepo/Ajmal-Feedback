@@ -47,8 +47,8 @@
 
         <!-- Ribbon wrapper with horizontal scrolling for mobile -->
         <!-- NPS Ribbon with Labels -->
-<div class="nps-wrapper text-center">
-    <div class="d-flex nps-ribbon justify-content-center">
+<div class="nps-ribbon-container">
+    <div class="nps-ribbon mx-auto">
         {% for i in range(11) %}
             <div class="nps-item text-center">
                 <input class="d-none" type="radio" name="nps" id="nps{{ i }}" value="{{ i }}"
@@ -119,19 +119,20 @@
         width: 100%;
         overflow-x: auto;
         padding-bottom: 5px;
+        -webkit-overflow-scrolling: touch;
     }
     
     .nps-ribbon {
         display: flex;
         flex-wrap: nowrap;
-        justify-content: center;
-        min-width: 400px;
+        justify-content: flex-start;
+        width: max-content;
+        margin: 0 auto;
     }
     .nps-item {
         flex: 0 0 auto;
-        width: 30px; /* Wider boxes */
+        width: 40px;
         text-align: center;
-        margin: 0; /* Remove spacing between items */
     }
     
     .nps-label {
@@ -140,14 +141,22 @@
         border-radius: 0;
         font-weight: normal;
         cursor: pointer;
-        border: 1px solid #ccc; /* Optional: to separate boxes visually */
+        border: 1px solid #ccc;
         transition: background-color 0.2s ease-in-out;
         background-color: #e0e0e0;
     }
     
     
     input[type="radio"]:checked + .nps-label {
-        border: 2px solid #333; /* Keep this if you want the selected box outlined */
+        border: 2px solid #333;
+    }
+    
+    /* Optional: Make sure the container doesn't overflow horizontally on small screens */
+    @media (max-width: 600px) {
+        .nps-ribbon-container {
+            padding-left: 8px;
+            padding-right: 8px;
+        }
     }
     
     </style>
