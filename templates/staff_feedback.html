@@ -34,40 +34,47 @@
             <div class="mb-3">
                 <div class="p-3 d-flex align-items-center justify-content-start feedback-option"
                     style="border: none; background-color: #d6d6d6; width: 100%; height: 40px; border-radius: 4px;">
-                    <input class="form-check-input me-2" type="radio" name="staff_reasons" value="Staff was not available to assist" id="s1"
-                    {% if "Staff was not available to assist" in staff_reasons %}checked{% endif %} required>
-                    <label class="form-check-label mb-0" for="s1" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
-                        {% if session.language == 'Arabic' %} لم يكن الموظفون متاحين للمساعدة {% else %} Staff was not available to assist {% endif %}
+                    <input class="form-check-input me-2" type="radio" name="product_reasons" value="Not enough variety" id="p1"
+                        {% if "Not enough variety" in product_reasons %}checked{% endif %} required>
+                    <label class="form-check-label mb-0" for="p1"
+                        style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+                        {% if session.language == 'Arabic' %} لا يوجد تنوع كاف {% else %} Not enough variety {% endif %}
                     </label>
                 </div>
             </div>
+
             <div class="mb-3">
                 <div class="p-3 d-flex align-items-center justify-content-start feedback-option"
                     style="border: none; background-color: #d6d6d6; width: 100%; height: 40px; border-radius: 4px;">
-                    <input class="form-check-input me-2" type="radio" name="staff_reasons" value="Staff was not willing to help" id="s2"
-                    {% if "Staff was not willing to help" in staff_reasons %}checked{% endif %}>
-                    <label class="form-check-label mb-0" for="s2" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
-                        {% if session.language == 'Arabic' %} لم يكن الموظفون على استعداد للمساعدة {% else %} Staff was not willing to help {% endif %}
+                    <input class="form-check-input me-2" type="radio" name="product_reasons" value="No offers or promotions on selected products" id="p2"
+                        {% if "No offers or promotions on selected products" in product_reasons %}checked{% endif %}>
+                    <label class="form-check-label mb-0" for="p2"
+                        style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+                        {% if session.language == 'Arabic' %} لا توجد عروض على المنتجات المفضلة لي {% else %} No offers or promotions on selected products {% endif %}
                     </label>
                 </div>
             </div>
+
             <div class="mb-3">
                 <div class="p-3 d-flex align-items-center justify-content-start feedback-option"
                     style="border: none; background-color: #d6d6d6; width: 100%; height: 40px; border-radius: 4px;">
-                    <input class="form-check-input me-2" type="radio" name="staff_reasons" value="Staff did not understand my requirements" id="s3"
-                    {% if "Staff did not understand my requirements" in staff_reasons %}checked{% endif %}>
-                    <label class="form-check-label mb-0" for="s3" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
-                        {% if session.language == 'Arabic' %} لم يفهم الموظفون متطلباتي {% else %} Staff did not understand my requirements {% endif %}
+                    <input class="form-check-input me-2" type="radio" name="product_reasons" value="The price was higher than expectation" id="p3"
+                        {% if "The price was higher than expectation" in product_reasons %}checked{% endif %}>
+                    <label class="form-check-label mb-0" for="p3"
+                        style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+                        {% if session.language == 'Arabic' %} كانت الأسعار أعلى من المتوقع {% else %} The price was higher than expected {% endif %}
                     </label>
                 </div>
             </div>
+
             <div class="mb-3">
                 <div class="p-3 d-flex align-items-center justify-content-start feedback-option"
                     style="border: none; background-color: #d6d6d6; width: 100%; height: 40px; border-radius: 4px;">
-                    <input class="form-check-input me-2" type="radio" name="staff_reasons" value="Staff was not welcoming and approachable" id="s4"
-                    {% if "Staff was not welcoming and approachable" in staff_reasons %}checked{% endif %}>
-                    <label class="form-check-label mb-0" for="s4" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
-                        {% if session.language == 'Arabic' %}لم يكن الموظفون مرحبين و ودودين {% else %} Staff was not welcoming and approachable {% endif %}
+                    <input class="form-check-input me-2" type="radio" name="product_reasons" value="My preferred item was out of stock" id="p4"
+                        {% if "My preferred item was out of stock" in product_reasons %}checked{% endif %}>
+                    <label class="form-check-label mb-0" for="p4"
+                        style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+                        {% if session.language == 'Arabic' %} كان إختياري المفضل غير متوفر {% else %} My preferred item was out of stock {% endif %}
                     </label>
                 </div>
             </div>
