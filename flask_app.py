@@ -241,11 +241,18 @@ def satisfaction_reason():
 def product_feedback():
     if request.method == "POST":
         session.setdefault('form_data', {})
+        # Handle both single and multiple selections
         product_reasons = request.form.getlist("product_reasons")
-        session['form_data']['product_reasons'] = product_reasons  # Correct key
-        session.modified=True
+        if not product_reasons:  # If empty list, try getting single value
+            single_reason = request.form.get("product_reasons")
+            if single_reason:
+                product_reasons = [single_reason]
+        
+        session['form_data']['product_reasons'] = product_reasons
+        session.modified = True
         print("Saved product reasons:", session['form_data'])
         return redirect(url_for("additional_feedback"))
+    
     language = session.get('form_data', {}).get('language', 'English')
     product_reasons = session.get('form_data', {}).get('product_reasons', []) 
     print(session['form_data'])
@@ -258,18 +265,20 @@ def staff_feedback():
     session.setdefault('form_data', {})
 
     if request.method == "POST":
-        # Get selected staff reasons from form
+        # Handle both single and multiple selections
         staff_reasons = request.form.getlist("staff_reasons")
+        if not staff_reasons:  # If empty list, try getting single value
+            single_reason = request.form.get("staff_reasons")
+            if single_reason:
+                staff_reasons = [single_reason]
+        
         session['form_data']['staff_reasons'] = staff_reasons
         session.modified = True
-
         print("Saved staff reasons:", session['form_data'])
         return redirect(url_for("additional_feedback"))
 
-    # GET request - load existing values
     language = session['form_data'].get('language', 'English')
     staff_reasons = session['form_data'].get('staff_reasons', [])
-
     print("Staff feedback form loaded with data:", session['form_data'])
     return render_template("staff_feedback.html", language=language, staff_reasons=staff_reasons)
 
@@ -278,18 +287,20 @@ def ambience_feedback():
     session.setdefault('form_data', {})
 
     if request.method == "POST":
-        # Get selected ambience reasons from form
+        # Handle both single and multiple selections
         ambience_reasons = request.form.getlist("ambience_reasons")
+        if not ambience_reasons:  # If empty list, try getting single value
+            single_reason = request.form.get("ambience_reasons")
+            if single_reason:
+                ambience_reasons = [single_reason]
+        
         session['form_data']['ambience_reasons'] = ambience_reasons
         session.modified = True
-
         print("Saved ambience reasons:", session['form_data'])
         return redirect(url_for("additional_feedback"))
 
-    # GET request - load existing values
     language = session['form_data'].get('language', 'English')
     ambience_reasons = session['form_data'].get('ambience_reasons', [])
-
     print("Ambience feedback form loaded with data:", session['form_data'])
     return render_template("ambience_feedback.html", language=language, ambience_reasons=ambience_reasons)
 
