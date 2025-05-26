@@ -29,13 +29,13 @@ def save_form_data(form_data):
             print("No database session available")
             return False, None, False, "DB connection error"
 
+        # Clean and validate phone number
         phone_number = form_data.get('phone', '').strip()
         if not phone_number:
             return False, None, False, "Missing phone number"
 
+        # Clean and validate store_id
         store_id = (form_data.get('store_id') or '').strip()
-        '''if not store_id:
-            return False, None, False, "Missing store ID"'''
 
         # Ensure store exists
         store = None
@@ -56,13 +56,24 @@ def save_form_data(form_data):
         if isinstance(dissatisfaction_reason, list):
             dissatisfaction_reason = ', '.join(dissatisfaction_reason)
 
-        # Convert reason fields if lists
+        # Convert reason fields if lists or strings
         def normalize_list(value):
-            return value if isinstance(value, list) else []
+            if isinstance(value, list):
+                return value
+            elif isinstance(value, str):
+                return [value] if value else []
+            return []
 
+        # Normalize all reason fields
         product_reasons = normalize_list(form_data.get('product_reasons', []))
         staff_reasons = normalize_list(form_data.get('staff_reasons', []))
         ambience_reasons = normalize_list(form_data.get('ambience_reasons', []))
+
+        # Print debug information
+        print(f"[DEBUG] Form data received: {form_data}")
+        print(f"[DEBUG] Product reasons: {product_reasons}")
+        print(f"[DEBUG] Staff reasons: {staff_reasons}")
+        print(f"[DEBUG] Ambience reasons: {ambience_reasons}")
 
         feedback_record = Feedback(
             timestamp=datetime.now(),
@@ -113,15 +124,26 @@ def save_form_data(form_data):
             else:
                 message = "No available gift codes"
 
-        session.commit()
-        session.close()
+        try:
+            session.commit()
+            print("[INFO] Successfully saved feedback data")
+        except Exception as commit_error:
+            print(f"[ERROR] Failed to commit changes: {str(commit_error)}")
+            print(traceback.format_exc())
+            session.rollback()
+            return False, None, False, "Error saving form data"
 
+        session.close()
         return True, gift_code_value, is_first_time, message
 
     except Exception as e:
         print(f"[ERROR] save_form_data failed: {str(e)}")
         print(traceback.format_exc())
+        if session:
+            session.rollback()
+            session.close()
         return False, None, False, "Error saving form data"
+
 def resend_gift_code_sms(phone_number):
     """Resend the previously sent gift code via SMS if already assigned, else assign and send a new one."""
     try:
