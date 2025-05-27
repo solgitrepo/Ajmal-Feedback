@@ -45,7 +45,7 @@
 <form method="POST" class="text-center" style="max-width: 100%;">
     <div class="mb-4">
         <div class="nps-wrapper text-center">
-            <div class="d-flex nps-ribbon justify-content-center mx-auto" style="max-width: 600px;">
+            <div class="nps-ribbon">
                 {% for i in range(11) %}
                     <div class="nps-item text-center">
                         <input class="d-none" type="radio" name="nps" id="nps{{ i }}" value="{{ i }}"
@@ -115,33 +115,36 @@
     
     .nps-ribbon {
         display: flex;
-        flex-wrap: nowrap;
         justify-content: center;
-        min-width: 400px;
+        flex-wrap: wrap; /* Allows items to wrap to new lines on small screens */
+        gap: 4px; /* Spacing between boxes */
+        margin: 0 auto;
+        width: 100%;
+        max-width: 100%; /* Ensures it doesn't overflow */
     }
+    
     .nps-item {
-        flex: 0 0 auto;
-        width: 20px; /* Wider boxes */
+        flex: 1 1 8%; /* Allow items to shrink/grow */
+        min-width: 28px;
+        max-width: 36px;
         text-align: center;
-        margin: 0; /* Remove spacing between items */
     }
     
     .nps-label {
         display: block;
-        padding: 10px 0;
-        border-radius: 0;
+        padding: 8px 0;
+        border-radius: 4px;
         font-weight: normal;
         cursor: pointer;
-        border: 1px solid #ccc; /* Optional: to separate boxes visually */
+        border: 1px solid #ccc;
         transition: background-color 0.2s ease-in-out;
         background-color: #e0e0e0;
+        font-size: 14px;
     }
-    
     
     input[type="radio"]:checked + .nps-label {
-        border: 2px solid #333; /* Keep this if you want the selected box outlined */
+        border: 2px solid #333;
     }
-    
     </style>
     
 {% endblock %}
