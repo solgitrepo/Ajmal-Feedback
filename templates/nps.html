@@ -116,30 +116,30 @@
     .nps-ribbon {
         display: flex;
         justify-content: center;
-        flex-wrap: wrap; /* Allows items to wrap to new lines on small screens */
-        gap: 4px; /* Spacing between boxes */
+        max-width: 20%;
         margin: 0 auto;
-        width: 100%;
-        max-width: 100%; /* Ensures it doesn't overflow */
+        border: 1px solid #ccc; /* optional outer border */
     }
     
     .nps-item {
-        flex: 1 1 8%; /* Allow items to shrink/grow */
-        min-width: 28px;
-        max-width: 36px;
-        text-align: center;
+        flex: 1 1 0;
     }
     
     .nps-label {
         display: block;
-        padding: 8px 0;
-        border-radius: 4px;
+        text-align: center;
+        padding: 10px 0;
+        margin: 0;
+        border-right: 1px solid #fff; /* creates the divider between items */
+        background-color: #e0e0e0;
         font-weight: normal;
         cursor: pointer;
-        border: 1px solid #ccc;
-        transition: background-color 0.2s ease-in-out;
-        background-color: #e0e0e0;
         font-size: 14px;
+        transition: background-color 0.2s ease-in-out;
+    }
+    
+    .nps-label:last-child {
+        border-right: none;
     }
     
     input[type="radio"]:checked + .nps-label {
