@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="progress nps-progress" style="height: 12px; background-color: #f0f1f5; border-radius: 10px;">
+<div class="progress" style="height: 12px; background-color: #f0f1f5; border-radius: 10px;">
     <div class="progress-bar progress-bar-striped" role="progressbar"
         style="width: 75%; background-color: #3ecf8e; border-radius: 10px;
             background-image: repeating-linear-gradient(
@@ -47,8 +47,8 @@
 
         <!-- Ribbon wrapper with horizontal scrolling for mobile -->
         <!-- NPS Ribbon with Labels -->
-<div class="nps-ribbon-container">
-    <div class="nps-ribbon mx-auto">
+<div class="nps-wrapper text-center">
+    <div class="d-flex nps-ribbon justify-content-center">
         {% for i in range(11) %}
             <div class="nps-item text-center">
                 <input class="d-none" type="radio" name="nps" id="nps{{ i }}" value="{{ i }}"
@@ -119,20 +119,19 @@
         width: 100%;
         overflow-x: auto;
         padding-bottom: 5px;
-        -webkit-overflow-scrolling: touch;
     }
     
     .nps-ribbon {
         display: flex;
         flex-wrap: nowrap;
-        justify-content: flex-start;
-        width: max-content;
-        margin: 0 auto;
+        justify-content: center;
+        min-width: 400px;
     }
     .nps-item {
         flex: 0 0 auto;
-        width: 38px;
+        width: 112px; /* Wider boxes */
         text-align: center;
+        margin: 0; /* Remove spacing between items */
     }
     
     .nps-label {
@@ -141,28 +140,14 @@
         border-radius: 0;
         font-weight: normal;
         cursor: pointer;
-        border: 1px solid #ccc;
+        border: 1px solid #ccc; /* Optional: to separate boxes visually */
         transition: background-color 0.2s ease-in-out;
         background-color: #e0e0e0;
     }
     
     
     input[type="radio"]:checked + .nps-label {
-        border: 2px solid #333;
-    }
-    
-    /* Optional: Make sure the container doesn't overflow horizontally on small screens */
-    @media (max-width: 600px) {
-        .nps-ribbon-container {
-            padding-left: 8px;
-            padding-right: 8px;
-        }
-    }
-    
-    .nps-progress {
-        width: 400px;
-        max-width: 100%;
-        margin: 0 auto 24px auto;
+        border: 2px solid #333; /* Keep this if you want the selected box outlined */
     }
     
     </style>
