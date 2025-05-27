@@ -44,74 +44,66 @@
 
 <form method="POST" class="text-center" style="max-width: 100%;">
     <div class="mb-4">
-
-        <!-- Ribbon wrapper with horizontal scrolling for mobile -->
-        <!-- NPS Ribbon with Labels -->
-<div class="nps-wrapper text-center">
-    <div class="d-flex nps-ribbon justify-content-center">
-        {% for i in range(11) %}
-            <div class="nps-item text-center">
-                <input class="d-none" type="radio" name="nps" id="nps{{ i }}" value="{{ i }}"
-                    {% if previous_nps is not none and previous_nps == i|string %}checked{% endif %}>
-                <label class="nps-label" for="nps{{ i }}"
-                    style="background-color: {{ nps_colors[i] }};">
-                    {{ i }}
-                </label>
+        <div class="nps-wrapper text-center">
+            <div class="d-flex nps-ribbon justify-content-center mx-auto" style="max-width: 600px;">
+                {% for i in range(11) %}
+                    <div class="nps-item text-center">
+                        <input class="d-none" type="radio" name="nps" id="nps{{ i }}" value="{{ i }}"
+                            {% if previous_nps is not none and previous_nps == i|string %}checked{% endif %}>
+                        <label class="nps-label" for="nps{{ i }}"
+                            style="background-color: {{ nps_colors[i] }};">
+                            {{ i }}
+                        </label>
+                    </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-    </div>
 
-    <!-- Aligned Likelihood Labels -->
-    <!-- Aligned Likelihood Labels -->
-<div class="d-flex justify-content-between px-2 small text-muted mt-1 mb-4">
-        <div>
+            <div class="d-flex justify-content-between px-2 small text-muted mt-1 mb-4" style="max-width: 600px; margin: 0 auto;">
+                <div>
+                    {% if session.language == 'Arabic' %}
+                        ليس من المحتمل على الإطلاق
+                    {% else %}
+                        Not at all likely
+                    {% endif %}
+                </div>
+                <div>
+                    {% if session.language == 'Arabic' %}
+                        محتمل للغاية
+                    {% else %}
+                        Extremely Likely
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation buttons -->
+        <div class="row">
             {% if session.language == 'Arabic' %}
-                ليس من المحتمل على الإطلاق
+                <div class="col text-start">
+                    <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                        < التالي
+                    </button>
+                </div>
+                <div class="col text-end">
+                    <a href="{{ url_for('additional_feedback') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                        السابق >
+                    </a>
+                </div>
             {% else %}
-                Not at all likely
+                <div class="col text-start">
+                    <a href="{{ url_for('additional_feedback') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                        < Previous
+                    </a>
+                </div>
+                <div class="col text-end">
+                    <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                        Next >
+                    </button>
+                </div>
             {% endif %}
         </div>
-        <div>
-            {% if session.language == 'Arabic' %}
-                محتمل للغاية
-            {% else %}
-                Extremely Likely
-            {% endif %}
-        </div>
     </div>
-</div>
-
-        
-
-    <!-- Navigation buttons -->
-    <div class="row">
-        {% if session.language == 'Arabic' %}
-            <div class="col text-start">
-                <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
-                    < التالي
-                </button>
-            </div>
-            <div class="col text-end">
-                <a href="{{ url_for('additional_feedback') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
-                    السابق >
-                </a>
-            </div>
-        {% else %}
-            <div class="col text-start">
-                <a href="{{ url_for('additional_feedback') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
-                    < Previous
-                </a>
-            </div>
-            <div class="col text-end">
-                <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
-                    Next >
-                </button>
-            </div>
-        {% endif %}
-    </div>
-    </form>
-    
-    
+</form>
 
 <!-- Styles -->
 <style>
