@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<form method="POST">
 <div class="progress" style="height: 12px; background-color: #f0f1f5; border-radius: 10px;">
     <div class="progress-bar progress-bar-striped"
         role="progressbar"
@@ -16,7 +18,7 @@
     </div>
 </div>
 
-<form method="POST" class="text-center container" style="max-width: 100%;">
+
     {% if session.form_data.get('satisfaction') == 'Yes' %}
     <div class="text-center mb-4">
         <label class="language-label">
