@@ -26,6 +26,16 @@
     {% endif %}
 </h2>
 
+{% if session.form_data.get('phone_count', 0) == 1 %}
+    <div class="text-center mb-4">
+        {% if session.language == 'Arabic' %}
+            كتعبير عن امتناننا، يسعدنا تقديم هدية خاصة لك. اعرض الرسالة القصيرة التي تحتوي على رمز الهدية الفريد في أي متجر أجمل في جميع أنحاء الإمارات العربية المتحدة للحصول على هديتك.
+        {% else %}
+            As a token of gratitude, we are pleased to offer you a special gift. Show the SMS with the unique gift code at any Ajmal store across the UAE to claim your gift.
+        {% endif %}
+    </div>
+{% endif %}
+
 <div class="d-grid gap-2 mt-4">
     <a href="{{ url_for('start_over') }}" class="btn btn-primary">
         {% if session.language == 'Arabic' %}
