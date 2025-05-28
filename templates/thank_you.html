@@ -1,48 +1,48 @@
-{% extends "base.html" %}
+    {% extends "base.html" %}
 
-{% block content %}
-<!-- Full progress bar -->
-<div class="progress mb-4" style="height: 12px; background-color: #f0f1f5; border-radius: 10px;">
-    <div class="progress-bar progress-bar-striped"
-        role="progressbar"
-        style="width: 100%; background-color: #3ecf8e; border-radius: 10px;
-               background-image: repeating-linear-gradient(
-                   45deg,
-                   rgba(255, 255, 255, 0.2),
-                   rgba(255, 255, 255, 0.2) 10px,
-                   transparent 10px,
-                   transparent 20px
-               );"
-        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+    {% block content %}
+    <!-- Full progress bar -->
+    <div class="progress mb-4" style="height: 12px; background-color: #f0f1f5; border-radius: 10px;">
+        <div class="progress-bar progress-bar-striped"
+            role="progressbar"
+            style="width: 100%; background-color: #3ecf8e; border-radius: 10px;
+                background-image: repeating-linear-gradient(
+                    45deg,
+                    rgba(255, 255, 255, 0.2),
+                    rgba(255, 255, 255, 0.2) 10px,
+                    transparent 10px,
+                    transparent 20px
+                );"
+            aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+        </div>
     </div>
-</div>
 
 
-<h2 class="text-center mb-4">
-    {% if session.language == 'Arabic' %}
-        شكراً لملاحظاتك!
-    {% else %}
-        Thank You for Your Feedback!
+    <h2 class="text-center mb-4">
+        {% if session.language == 'Arabic' %}
+            شكراً لملاحظاتك!
+        {% else %}
+            Thank You for Your Feedback!
+        {% endif %}
+    </h2>
+
+    {% if is_first_time %}
+        <div class="text-center mb-4">
+            {% if session.language == 'Arabic' %}
+                كتعبير عن امتناننا، يسعدنا تقديم هدية خاصة لك. اعرض الرسالة القصيرة التي تحتوي على رمز الهدية الفريد في أي متجر أجمل في جميع أنحاء الإمارات العربية المتحدة للحصول على هديتك.
+            {% else %}
+                As a token of gratitude, we are pleased to offer you a special gift. Show the SMS with the unique gift code at any Ajmal store across the UAE to claim your gift.
+            {% endif %}
+        </div>
     {% endif %}
-</h2>
 
-{% if session.form_data.get('phone_count', 0) == 1 %}
-    <div class="text-center mb-4">
-        {% if session.language == 'Arabic' %}
-            كتعبير عن امتناننا، يسعدنا تقديم هدية خاصة لك. اعرض الرسالة القصيرة التي تحتوي على رمز الهدية الفريد في أي متجر أجمل في جميع أنحاء الإمارات العربية المتحدة للحصول على هديتك.
-        {% else %}
-            As a token of gratitude, we are pleased to offer you a special gift. Show the SMS with the unique gift code at any Ajmal store across the UAE to claim your gift.
-        {% endif %}
+    <div class="d-grid gap-2 mt-4">
+        <a href="{{ url_for('start_over') }}" class="btn btn-primary">
+            {% if session.language == 'Arabic' %}
+                إرسال تعليقات أخرى       
+            {% else %}
+                Submit Another Feedback
+            {% endif %}
+        </a>
     </div>
-{% endif %}
-
-<div class="d-grid gap-2 mt-4">
-    <a href="{{ url_for('start_over') }}" class="btn btn-primary">
-        {% if session.language == 'Arabic' %}
-            إرسال تعليقات أخرى       
-        {% else %}
-            Submit Another Feedback
-        {% endif %}
-    </a>
-</div>
-{% endblock %}
+    {% endblock %}
