@@ -34,9 +34,9 @@
 </div>
     
     <form method="POST" action="{{ url_for('start_survey') }}">
-        <div class="mt-4" style="text-align: right;">
+        <div class="mt-4" style="text-align: {% if session.form_data.language == 'Arabic' %}left{% else %}right{% endif %};">
             <button type="submit" class="btn btn-primary px-4" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
-                {% if session.form_data.language == "Arabic" %} < ابدأ الاستبيان{% else %}Start Survey >{% endif %}
+                {% if session.form_data.language == "Arabic" %}< ابدأ الاستبيان{% else %}Start Survey >{% endif %}
             </button>
         </div>
     <!-- T&C Aligned Left -->
