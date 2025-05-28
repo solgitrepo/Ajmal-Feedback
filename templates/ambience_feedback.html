@@ -28,66 +28,87 @@
 </label>
 </div>
 
-
-
 <div class="mb-3 d-flex justify-content-center">
-    <div class="p-3 d-flex align-items-center justify-content-start"
+    <div class="p-3 d-flex align-items-center {% if session.language == 'Arabic' %}justify-content-end{% else %}justify-content-start{% endif %}"
         style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+        {% if session.language == 'Arabic' %}
+        <label class="form-check-label mb-0 me-2" for="a1"
+            style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+            كان الجو حاراً جدًا / باردًا جدًا في المتجر
+        </label>
+        <input class="form-check-input" type="radio" name="ambience_reasons" value="It was too warm / too cold in the store" id="a1"
+        {% if "It was too warm / too cold in the store" in ambience_reasons %}checked{% endif %}>
+        {% else %}
         <input class="form-check-input me-2" type="radio" name="ambience_reasons" value="It was too warm / too cold in the store" id="a1"
         {% if "It was too warm / too cold in the store" in ambience_reasons %}checked{% endif %}>
         <label class="form-check-label mb-0" for="a1"
             style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
-            {% if session.language == 'Arabic' %}
-                كان الجو حاراً جدًا / باردًا جدًا في المتجر
-            {% else %}
-                It was too warm / too cold in the store
-            {% endif %}
+            It was too warm / too cold in the store
         </label>
+        {% endif %}
     </div>
 </div>
 
-    <div class="mb-3 d-flex justify-content-center">
-        <div class="p-3 d-flex align-items-center justify-content-start"
-            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
-            <input class="form-check-input me-2" type="radio" name="ambience_reasons" value="The store and display seemed untidy" id="a2"
-            {% if "The store and display seemed untidy" in ambience_reasons %}checked{% endif %}>
-            <label class="form-check-label mb-0" for="a2"
+<div class="mb-3 d-flex justify-content-center">
+    <div class="p-3 d-flex align-items-center {% if session.language == 'Arabic' %}justify-content-end{% else %}justify-content-start{% endif %}"
+        style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+        {% if session.language == 'Arabic' %}
+        <label class="form-check-label mb-0 me-2" for="a2"
             style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
-                {% if session.language == 'Arabic' %}
-                    المتجر وكيفية عرض المنتجات كانت غير مرتبة
-                {% else %}
-                    The store and display seemed untidy
-                {% endif %}
-            </label>
+            المتجر وكيفية عرض المنتجات كانت غير مرتبة
+        </label>
+        <input class="form-check-input" type="radio" name="ambience_reasons" value="The store and display seemed untidy" id="a2"
+        {% if "The store and display seemed untidy" in ambience_reasons %}checked{% endif %}>
+        {% else %}
+        <input class="form-check-input me-2" type="radio" name="ambience_reasons" value="The store and display seemed untidy" id="a2"
+        {% if "The store and display seemed untidy" in ambience_reasons %}checked{% endif %}>
+        <label class="form-check-label mb-0" for="a2"
+            style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+            The store and display seemed untidy
+        </label>
+        {% endif %}
     </div>
 </div>
 
-    <div class="mb-3 d-flex justify-content-center">
-        <div class="p-3 d-flex align-items-center justify-content-start"
-            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+<div class="mb-3 d-flex justify-content-center">
+    <div class="p-3 d-flex align-items-center {% if session.language == 'Arabic' %}justify-content-end{% else %}justify-content-start{% endif %}"
+        style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+        {% if session.language == 'Arabic' %}
+        <label class="form-check-label mb-0 me-2" for="a3"
+            style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+            كانت الإضاءة ساطعة جدًا / خافتة جدًا
+        </label>
+        <input class="form-check-input" type="radio" name="ambience_reasons" value="The light was too bright / too dim" id="a3"
+        {% if "The light was too bright / too dim" in ambience_reasons %}checked{% endif %}>
+        {% else %}
         <input class="form-check-input me-2" type="radio" name="ambience_reasons" value="The light was too bright / too dim" id="a3"
         {% if "The light was too bright / too dim" in ambience_reasons %}checked{% endif %}>
-        <label class="form-check-label mb-0" for="a3" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
-            {% if session.language == 'Arabic' %}
-                كانت الإضاءة ساطعة جدًا / خافتة جدًا
-            {% else %}
-                The light was too bright / too dim
-            {% endif %}
+        <label class="form-check-label mb-0" for="a3"
+            style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+            The light was too bright / too dim
         </label>
+        {% endif %}
     </div>
 </div>
-    <div class="mb-3 d-flex justify-content-center">
-        <div class="p-3 d-flex align-items-center justify-content-start"
-            style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+
+<div class="mb-3 d-flex justify-content-center">
+    <div class="p-3 d-flex align-items-center {% if session.language == 'Arabic' %}justify-content-end{% else %}justify-content-start{% endif %}"
+        style="border: none; background-color: #d6d6d6; width: 100%; max-width: 600px; height: 40px; border-radius: 0px;">
+        {% if session.language == 'Arabic' %}
+        <label class="form-check-label mb-0 me-2" for="a4"
+            style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+            تصميم المتجر يجعل التنقل ليس سهلاً
+        </label>
+        <input class="form-check-input" type="radio" name="ambience_reasons" value="The store layout was not very easy to navigate" id="a4"
+        {% if "The store layout was not very easy to navigate" in ambience_reasons %}checked{% endif %}>
+        {% else %}
         <input class="form-check-input me-2" type="radio" name="ambience_reasons" value="The store layout was not very easy to navigate" id="a4"
         {% if "The store layout was not very easy to navigate" in ambience_reasons %}checked{% endif %}>
-        <label class="form-check-label mb-0" for="a4" style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
-            {% if session.language == 'Arabic' %}
-                تصميم المتجر يجعل التنقل ليس سهلاً
-            {% else %}
-                The store layout was not very easy to navigate
-            {% endif %}
+        <label class="form-check-label mb-0" for="a4"
+            style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: 500; font-size: 14px;">
+            The store layout was not very easy to navigate
         </label>
+        {% endif %}
     </div>
 </div>
 
