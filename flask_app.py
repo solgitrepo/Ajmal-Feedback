@@ -365,14 +365,14 @@ def thank_you():
             flash("Phone number is missing.", "error")
             return redirect(url_for('verify_phone'))
 
+        # Check if this is the first time this phone number is being used
         phone_count = phone_occurrence_count(phone)
-        session['form_data']['phone_count'] = phone_count
-        session.modified = True
-
+        is_first_time = phone_count == 0  # It's first time if count is 0 (before saving)
+        
         # First render the thank you page with appropriate message
         template_data = {
             "gift_code": None,
-            "is_first_time": phone_count == 1,
+            "is_first_time": is_first_time,
             "sms_message": "Your response has been submitted successfully!"
         }
 
