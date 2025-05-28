@@ -366,11 +366,17 @@ def thank_you():
             return redirect(url_for('verify_phone'))
 
         phone_count = phone_occurrence_count(phone)
-
         session['form_data']['phone_count'] = phone_count
         session.modified = True
 
-        # Inject store_id for DB saving
+        # First render the thank you page with appropriate message
+        template_data = {
+            "gift_code": None,
+            "is_first_time": phone_count == 1,
+            "sms_message": "Your response has been submitted successfully!"
+        }
+
+        # Then handle the background operations
         if store_id:
             form_data['store_id'] = store_id
 
@@ -378,15 +384,7 @@ def thank_you():
         form_data_copy = form_data.copy()  # Copy session data for thread
         Thread(target=background_save_and_sms, args=(form_data_copy,)).start()
 
-        return render_template(
-            "thank_you.html",
-            gift_code=None,
-            is_first_time=None,
-            sms_message="Your response has been submitted successfully!"
-        )
-
-        '''else:
-            return "There was an error saving your response.", 500'''
+        return render_template("thank_you.html", **template_data)
 
     session.clear()
     return redirect('/')
