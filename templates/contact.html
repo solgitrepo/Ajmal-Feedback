@@ -1,121 +1,82 @@
 {% extends "base.html" %}
 
 {% block content %}
-<!-- Full progress bar -->
-<div class="progress mb-4" style="height: 12px; background-color: #f0f1f5; border-radius: 10px;">
-    <div class="progress-bar progress-bar-striped" role="progressbar"
-        style="width: 100%; background-color: #3ecf8e; border-radius: 10px;
-                background-image: repeating-linear-gradient(
-                    45deg,
-                    rgba(255, 255, 255, 0.2),
-                    rgba(255, 255, 255, 0.2) 10px,
-                    transparent 10px,
-                    transparent 20px
-                );"
-        aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+<div class="progress" style="height: 12px; background-color: #e9ecef; border-radius: 10px;">
+    <div class="progress-bar progress-bar-striped" 
+        role="progressbar"
+        style="width: 75%; background-color: #3ecf8e; border-radius: 10px;"
+        aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
     </div>
 </div>
-
-
-
-<!-- Bold info message -->
 <div class="text-center mb-4">
     <label class="language-label">
         <strong>
     {% if session.language == 'Arabic' %}
-    يرجى مشاركة معلومات الاتصال الخاصة بك لتسهيل التواصل فيما يتعلق بملاحظاتك وتلقي التحديثات حول العروض الخاصة والعروض الترويجية   
+        يرجى مشاركة معلومات الاتصال الخاصة بك لتسهيل التواصل فيما يتعلق بملاحظاتك وتلقي التحديثات حول العروض الخاصة والعروض الترويجية.
     {% else %}
-        Kindly share your contact information to facilitate communication regarding your feedback and to receive updates on special offers and promotions.<br>
-        Free gift available till stocks last. Please enquire at store for availability. Free gift cannot be exchanged or returned.
+        Kindly share your contact information to facilitate communication regarding your feedback and to receive updates on special offers and promotions.
     {% endif %}
-</strong>
-</label>
-</div>
-<div class="text-center mb-4">
-<label class="language-label" style="font-size: 1.00 rem;"> <!-- 1.25rem ≈ 20px -->
-    <strong>
-        {% if session.language == 'Arabic' %}
-            تم إرسال رمز التحقق إليك    
-        {% else %}
-            OTP has been sent to you
-        {% endif %}
     </strong>
 </label>
 </div>
-{% if otp %}
-<div class="alert alert-warning text-center" style="font-size: 1.1rem;">
-    <strong>OTP (for testing): {{ otp }}</strong>
-</div>
-{% endif %}
 
-
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-
-    <form method="POST" class="text-center">
-        <div class="mb-3 text-start">
-            <label for="name" class="form-label small">
-                OTP <span style="color: red;">*</span>
-            </label>
-            <input type="text" class="form-control text-right" name="otp"
-            placeholder="Enter OTP" required maxlength="6" pattern="[0-9]{6}">
-        </div>
-    
-    
-        <div class="text-start mt-3 ps-2">
-            <span id="timer" class="text-muted" style="font-weight: 500;">
-                    Resend OTP in: 01:00
-            </span>
-        </div>
-        
-    
-    <div class="col text-center">
-        <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 20px; font-size: 14px;">
-        Verify OTP
-        </button>
+<form method="POST" class="text-center">
+    <div class="mb-3 text-start">
+        <label for="name" class="form-label small">
+            {% if session.language == 'Arabic' %}
+                الاسم الكامل <span style="color: red;">*</span>
+            {% else %}
+                Full Name <span style="color: red;">*</span>
+            {% endif %}
+        </label>
+        <input type="text" class="form-control" id="name" name="name" required
+               placeholder="Enter your name"
+               value="{{ session.form_data.get('name', '') }}">
     </div>
-</form>
-<!-- Resend OTP Form (separate form outside main POST) -->
-<form method="POST" action="{{ url_for('enter_otp') }}" id="resend-container" style="display: none;" class="text-center mt-2">
-    <button type="submit" class="btn btn-link p-0" style="font-weight: 500; text-decoration: none;">
+
+
+    
+    <div class="mb-3 text-start">
+        <label for="email" class="form-label small">
+            {% if session.language == 'Arabic' %}
+                عنوان البريد الإلكتروني  <span style="color: red;">*</span>
+            {% else %}
+                Email Address <span style="color: red;">*</span>
+            {% endif %}
+        </label>
+        <input type="email" class="form-control" id="email" name="email" required
+            placeholder="Enter your email "
+            value="{{ session.form_data.get('email', '') }}">
+    </div>
+    
+
+    <div class="row">
         {% if session.language == 'Arabic' %}
-            إعادة إرسال رمز التحقق
+            <div class="col text-start">
+                <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                    < التالي
+                </button>
+            </div>
+            <div class="col text-end">
+                <a href="{{ url_for('nps') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                    السابق >
+                </a>
+            </div>
         {% else %}
-            Resend OTP
+            <div class="col text-start">
+                <a href="{{ url_for('nps') }}" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                    < Previous
+                </a>
+            </div>
+            <div class="col text-end">
+                <button type="submit" class="btn btn-primary" style="border-radius: 4px; box-shadow: 0 6px 6px rgba(0, 0, 0, 0.1); padding: 8px 12px; font-size: 14px;">
+                    Next >
+                </button>
+            </div>
         {% endif %}
-    </button>
-</form>
-
-<script>
-    let timeLeft = 60;
-    const timerElement = document.getElementById("timer");
-    const resendContainer = document.getElementById("resend-container");
-
-    const countdown = setInterval(() => {
-        timeLeft--;
-
-        const minutes = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-        const seconds = String(timeLeft % 60).padStart(2, '0');
-
-        {% if session.language == 'Arabic' %}
-        timerElement.textContent = `إعادة الإرسال خلال: ${minutes}:${seconds}`;
-        {% else %}
-        timerElement.textContent = `Resend OTP in: ${minutes}:${seconds}`;
-        {% endif %}
-
-        if (timeLeft <= 0) {
-            clearInterval(countdown);
-            timerElement.style.display = "none";
-            resendContainer.style.display = "block";
-        }
-    }, 1000);
-</script>
-{% endblock %}
+    </div>
+    </form>
+    
+        
+    {% endblock %}
+    
